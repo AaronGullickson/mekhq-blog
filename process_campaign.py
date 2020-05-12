@@ -53,6 +53,8 @@ toe = campaign.find('forces').find('force')
 missions = campaign.find('missions')
 kills = campaign.find('kills')
 
+#loop through personnel and print out markdown file for each one
+#currently limiting it to mechwarriors for test purposes
 for person in personnel.findall('person'):
     uuid  = person.find('id').text
     primary_role = int(person.find('primaryRole').text)
@@ -86,7 +88,8 @@ for person in personnel.findall('person'):
         f.write(unescape(bio))
         f.close()
   
-
+#loop through missions and scenarios. Use slugs to link scenarios
+#to mission, but actually linking will be done by liquid
 for mission in missions.findall('mission'):
     mission_name = mission.find('name').text
     mission_type = get_xml_text(mission.find('type'))
