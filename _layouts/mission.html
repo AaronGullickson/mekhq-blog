@@ -1,29 +1,28 @@
 {% include header.html %}
-
   <main role="main">
-    <div id="theme" class="theme-light">
-      <div class="container top">
-        <div class="row">
-          <div class="col">
-            <h2>{{ page.title }}</h2>
-            <hr>
-            {{ content }}
-          </div>
+    <div class="container top bg-light mt-3">
+      <div class="row">
+        <div class="col">
+          <h2>{{ page.title }}</h2>
+          {{ content }}
         </div>
-        {% for scenario in site.scenarios %}
-        {% if scenario.mission-slug == page.slug %}
-        <div class="row">
-          <div class="col">
+      </div>
+      {% assign sortedScenarios = site.scenarios | sort: 'date' %}
+      {% for scenario in sortedScenarios %}
+      {% if scenario.mission-slug == page.slug %}
+      <div class="row">
+        <div class="col">
+          <div class="container border border-info rounded my-2">
             <h3>{{ scenario.title }}</h3>
             {{ scenario.date | date_to_long_string }}
             {{ scenario.content | markdownify }}
           </div>
         </div>
-        {% endif %}
-        {% endfor %}
-     </div>
+      </div>
+      {% endif %}
+      {% endfor %}
     </div>
   </main>
-  {% include footer.html %}
+{% include footer.html %}
 </body>
 </html>

@@ -1,33 +1,31 @@
 {% include header.html %}
 
   <main role="main">
-    <div id="theme" class="theme-light">
-      <div class="container top">
-        <div class="row">
-          <div class="col-4">
-            <img src="/assets/images/{{ page.portrait }}" class="rounded">
-          </div>
-          <div class="col-8">
-            <h4><a href="{{ page.url | relative_url }}">{{ page.title }}</a></h4>
-            {% if page.callsign %}
-            <b>Callsign: </b>{{page.callsign}}<br>
-            {% endif %}
-            {% if page.kills %}
-            <b>Age: </b>{{page.age}}<br>
-            {% endif %}
-            {% if page.kills %}
-            <b>Kills: </b>{{page.kills}}<br>
-            {% endif %}
-          </div>
+    <div class="container top bg-light mt-3">
+      <div class="row">
+        <div class="col-4">
+          <img src="/assets/images/{{ page.portrait }}" class="rounded">
         </div>
-        <hr>
-        <div class="row">
-          <div class="col">
-            {{ content }}
-          </div>
+        <div class="col-8">
+          <h4><a href="{{ page.url | relative_url }}">{{ page.title }}</a></h4>
+          {% if page.callsign %}
+          <b>Callsign: </b>{{page.callsign}}<br>
+          {% endif %}
+          {% if page.kills %}
+          <b>Age: </b>{{page.age}}<br>
+          {% endif %}
+          {% if page.kills %}
+          <b>Kills: </b>{{page.kills}}<br>
+          {% endif %}
         </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col">
+          {{ content }}
+        </div>
+      </div>
      </div>
-    </div>
   </main>
   {% include footer.html %}
 </body>
