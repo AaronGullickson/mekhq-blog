@@ -95,6 +95,7 @@ for mission in missions.findall('mission'):
     f.write('---\n')
     f.write('layout: mission\n')
     f.write('title: ' + mission_name + '\n')
+    f.write('slug: ' + urlify(mission_name) + '\n')
     f.write('---\n\n')
     f.write(unescape(mission_desc))
     f.close()
@@ -109,11 +110,13 @@ for mission in missions.findall('mission'):
             f.write('---\n')
             f.write('layout: mission\n')
             f.write('title: ' + scenario_name + '\n')
+            if(scenario_date is not None):
+                f.write('date: ' + str(scenario_date) + '\n')
             f.write('mission: ' + mission_name + '\n')
-            f.write('mission-tag: ' + urlify(mission_name) + '\n')
+            f.write('mission-slug: ' + urlify(mission_name) + '\n')
             f.write('---\n\n')
             f.write(scenario_desc + '\n')
             if(scenario_aar is not ''):
-                f.write('### After-Action Report\n\n')
+                f.write('#### After-Action Report\n\n')
                 f.write(scenario_aar)
             f.close()

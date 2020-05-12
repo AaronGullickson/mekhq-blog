@@ -10,6 +10,17 @@
             {{ content }}
           </div>
         </div>
+        {% for scenario in site.scenarios %}
+        {% if scenario.mission-slug == page.slug %}
+        <div class="row">
+          <div class="col">
+            <h3>{{ scenario.title }}</h3>
+            {{ scenario.date | date_to_long_string }}
+            {{ scenario.content | markdownify }}
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
      </div>
     </div>
   </main>
