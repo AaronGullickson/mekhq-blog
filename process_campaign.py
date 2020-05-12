@@ -1,16 +1,35 @@
 #!/usr/bin/env python3
 
 import xml.etree.ElementTree as ET
-from html import unescape
 import re
+import datetime
+from dateutil import relativedelta
+from html import unescape
 
+#clean out punctuation and replace spaces with - for url links
 def urlify(s):
     # Remove all non-word characters (everything except numbers and letters)
     s = re.sub(r"[^\w\s]", '', s)
     # Replace all runs of whitespace with a single dash
     s = re.sub(r"\s+", '-', s)
     return s.lower()
+
+#takes an xml element and returns either the text of element if it exists
+#or an empty string otherwise
+def get_xml_text(ele):
+    if(ele is not None and ele.text is not None):
+        return ele.text
+    else:
+        return ''
+
+#take an xml element with a date in it and convert to date object
+def get_xml_date(ele):
+    if(ele is not None and ele.text is not None):
+        return datetime.datetime.strptime(ele.text, '%Y-%m-%d %H:%M:%S')
+    else:
+        return None
     
+#loop through kills and count ones belonging to this uuid
 def count_kills(uuid, kills):
   nkills = 0
   for kill in kills.findall('kill'):
@@ -23,44 +42,78 @@ def count_kills(uuid, kills):
 
 tree = ET.parse('Flaming Devil Monkeys30740902.cpnx')
 campaign = tree.getroot()
+campaign_info = campaign.find('info')
 
+#when are we?
+date = datetime.datetime.strptime(campaign_info.find('calendar').text, '%Y-%m-%d %H:%M:%S')
+  
+#some stuff we need
 personnel = campaign.find('personnel')
 toe = campaign.find('forces').find('force')
 missions = campaign.find('missions')
 kills = campaign.find('kills')
 
 for person in personnel.findall('person'):
-  uuid = person.find('id').text
-  primary_role = int(person.find('primaryRole').text)
-  first = person.find('givenName')
-  surname = person.find('surname')
-  if primary_role == 1 and first is not None and first.text is not None:
-    name = first.text
-    if surname is not None and surname.text is not None:
-      name = name + ' ' + surname.text
-    bio = person.find('biography')
-    portrait_path = person.find('portraitCategory')
-    portrait_file = person.find('portraitFile')
-    callsign = person.find('callsign')
-    f = open('campaign/personnel/' + urlify(name) + '.md', 'w')
-    f.write('---\n')
-    f.write('layout: bio\n')
-    f.write('title: ' + name + '\n')
-    if(callsign is not None and callsign.text is not None):
-      f.write('callsign: ' + callsign.text + '\n')
-    f.write('kills: ' + str(count_kills(uuid, kills)) + '\n')
-    if(portrait_path is not None and portrait_path.text is not None and portrait_file is not None and portrait_file.text is not None):
-      f.write('portrait: ' + portrait_path.text + portrait_file.text + '\n')
-    f.write('---\n\n')
-    if bio is not None:
-      f.write(unescape(bio.text))
-    f.close()
+    uuid  = person.find('id').text
+    primary_role = int(person.find('primaryRole').text)
+    first = get_xml_text(person.find('givenName'))
+    surname = get_xml_text(person.find('surname'))
+    birthdate = get_xml_date(person.find('birthday'))
+    deathdate = get_xml_date(person.find('deathday'))
+    dead = deathdate is not None
+    if(dead):
+        age = relativedelta.relativedelta(deathdate, birthdate).years
+    else:
+        age = relativedelta.relativedelta(date, birthdate).years
+    if primary_role == 1 and first is not '':
+        name = first
+        if(surname is not ''):
+            name = name + ' ' + surname
+        bio = get_xml_text(person.find('biography'))
+        portrait_path = get_xml_text(person.find('portraitCategory'))+get_xml_text(person.find('portraitFile'))
+        callsign = get_xml_text(person.find('callsign'))
+        f = open('campaign/personnel/' + urlify(name) + '.md', 'w')
+        f.write('---\n')
+        f.write('layout: bio\n')
+        f.write('title: ' + name + '\n')
+        if(callsign is not ''):
+            f.write('callsign: ' + callsign + '\n')
+        f.write('kills: ' + str(count_kills(uuid, kills)) + '\n')
+        f.write('age: ' + str(age) + '\n')
+        if(portrait_path is not ''):
+            f.write('portrait: ' + portrait_path + '\n')
+        f.write('---\n\n')
+        f.write(unescape(bio))
+        f.close()
   
 
-#for mission in missions.findall('mission'):
-#  mission_name = mission.find('name').text
-#  print mission_name
-#  scenarios = mission.find('scenarios')
-#  for scenario in scenarios.findall('scenario'):
-#    print '\t'+scenario.find('name').text
-
+for mission in missions.findall('mission'):
+    mission_name = mission.find('name').text
+    mission_type = get_xml_text(mission.find('type'))
+    mission_desc = get_xml_text(mission.find('desc'))
+    f = open('campaign/missions/' + urlify(mission_name) + '.md', 'w')
+    f.write('---\n')
+    f.write('layout: mission\n')
+    f.write('title: ' + mission_name + '\n')
+    f.write('---\n\n')
+    f.write(unescape(mission_desc))
+    f.close()
+    scenarios = mission.find('scenarios')
+    if(scenarios is not None):
+        for scenario in scenarios.findall('scenario'):
+            scenario_name = scenario.find('name').text
+            scenario_desc = get_xml_text(scenario.find('desc'))
+            scenario_aar = get_xml_text(scenario.find('report'))
+            scenario_date = get_xml_date(scenario.find('date'))
+            f = open('campaign/scenarios/' + urlify(mission_name + ' ' + scenario_name) + '.md', 'w')
+            f.write('---\n')
+            f.write('layout: mission\n')
+            f.write('title: ' + scenario_name + '\n')
+            f.write('mission: ' + mission_name + '\n')
+            f.write('mission-tag: ' + urlify(mission_name) + '\n')
+            f.write('---\n\n')
+            f.write(scenario_desc + '\n')
+            if(scenario_aar is not ''):
+                f.write('### After-Action Report\n\n')
+                f.write(scenario_aar)
+            f.close()
