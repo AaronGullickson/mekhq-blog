@@ -1,0 +1,28 @@
+{% include header.html %}
+
+  <main role="main">
+    <div id="theme" class="theme-light">
+      <div class="container top">
+        <div class="row">
+          <div class="col">
+            <h2>{{ page.title }}</h2>
+            <hr>
+            {{ content }}
+          </div>
+        </div>
+        {% for force in site.forces %}
+        {% if force.parent-slug == page.slug %}
+        <div class="row">
+          <div class="col">
+            <h3><a href="{{ force.url | relative_url }}">{{ force.title }}</a></h3>
+            {{ force.content | markdownify }}
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+     </div>
+    </div>
+  </main>
+  {% include footer.html %}
+</body>
+</html>

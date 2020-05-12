@@ -38,7 +38,26 @@ def count_kills(uuid, kills):
       if(uuid == kill_id.text):
        nkills = nkills + 1
   return nkills
-
+  
+#loop through all the forces identified in element list and output them to
+#markdown files. At the end it calls itself to iteratively process the tree
+def process_forces(forces_ele, parent_slug):
+    for force in forces_ele.findall('force'):
+        force_name = force.find('name').text
+        force_desc = get_xml_text(force.find('desc'))
+        f = open('campaign/_forces/' + urlify(force_name) + '.md', 'w')
+        f.write('---\n')
+        f.write('layout: forces\n')
+        f.write('title: ' + force_name + '\n')
+        f.write('slug: ' + urlify(force_name) + '\n')
+        if(parent_slug is not None):
+            f.write('parent-slug: ' + parent_slug + '\n')
+        f.write('---\n\n')
+        f.write(unescape(force_desc))
+        f.close()
+        subforces = force.find('subforces')
+        if(subforces is not None):
+            process_forces(subforces, urlify(force_name))
 
 tree = ET.parse('Flaming Devil Monkeys30740902.cpnx')
 campaign = tree.getroot()
@@ -49,9 +68,12 @@ date = datetime.datetime.strptime(campaign_info.find('calendar').text, '%Y-%m-%d
   
 #some stuff we need
 personnel = campaign.find('personnel')
-toe = campaign.find('forces').find('force')
 missions = campaign.find('missions')
 kills = campaign.find('kills')
+forces = campaign.find('forces')
+
+# process forces
+process_forces(forces, None)
 
 #loop through personnel and print out markdown file for each one
 #currently limiting it to mechwarriors for test purposes

@@ -41,6 +41,8 @@ collections:
     output: true
   scenarios:
     output: true
+  forces:
+    output: true
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
