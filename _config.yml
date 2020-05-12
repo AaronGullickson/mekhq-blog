@@ -32,6 +32,16 @@ plugins:
 
 future: true
 
+collections_dir: campaign
+
+collections:
+  personnel:
+    output: true
+  missions:
+    output: true
+  scenarios:
+    output: true
+
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
