@@ -136,7 +136,7 @@ for mission in missions.findall('mission'):
             f.write('layout: mission\n')
             f.write('title: ' + scenario_name + '\n')
             if(scenario_date is not None):
-                f.write('date: ' + str(scenario_date) + '\n')
+                f.write('date: ' + scenario_date.strftime('%Y-%m-%d') + '\n')
             f.write('mission: ' + mission_name + '\n')
             f.write('mission-slug: ' + urlify(mission_name) + '\n')
             f.write('---\n\n')
