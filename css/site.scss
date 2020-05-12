@@ -1,0 +1,141 @@
+---
+---
+
+/*
+ * Basic color definitions
+ */
+
+$backgroundColor: #dadfe1;
+$textColor: #000000;
+$accentColor1: #0000a0;
+$accentColor2: #800080;
+$activeColor: #00ffff;
+
+/*******************************************************/
+/* Variables                                           */
+/*******************************************************/
+
+//fonts
+$font-stack: "Source Sans Pro",
+Trebuchet MS,
+Arial,
+Helvetica,
+Verdana,
+sans-serif;
+
+/*******************************************************/
+/* Basics                                              */
+/*******************************************************/
+body,
+html {
+  height: 100%;
+}
+
+body {
+  /*background-image: url("../../assets/images/backgrounds/hexellence.png"), linear-gradient(#000000, #000000);*/
+  background-color: black;
+  font-family: $font-stack;
+  color: $textColor;
+  /*padding-top: 60px;*/
+}
+
+a {
+  &:link {
+    color: $accentColor1;
+  }
+
+  &:visited {
+    color: $accentColor1;
+  }
+
+  &:hover {
+    color: $accentColor2;
+  }
+
+  &:active {
+    color: $activeColor;
+  }
+}
+
+/*******************************************************/
+/* For the banner image used at the top and the navbar */
+/*******************************************************/
+.banner-image {
+  background-image: url("../../assets/images/banner_image.png");
+
+  /* Set a specific height */
+  height: 350px;
+  /* Position and center the image to scale nicely on all screens */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: 0;
+}
+
+/* Make the navbar semi-transparent */
+/*.navbar.transparent {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75));
+}
+
+.navbar a {
+  font-size: 1.1em;
+}*/
+
+/********************************/
+/** Adjustments to containers  **/
+/********************************/
+.container-fluid {
+  /* So that the banner image goes all the way to the edges */
+  padding: 0px;
+}
+
+.container {
+  padding: 15px;
+}
+
+.container.footer {
+  padding-top: 0px;
+}
+
+/* Custom top level container for the body */
+.container.top {
+  border-radius: 25px;
+  margin-top: 10px;
+  background-color: $backgroundColor;
+}
+
+.container.border {
+  border-color: red;
+}
+
+
+/*********************************************************************/
+/* posts                                                             */
+/*********************************************************************/
+div.post-meta {
+  border-width: 1px 0;
+  border-color: #666666;
+  border-style: solid;
+  margin: 0 0 20px;
+
+  ul {
+    display: inline;
+    padding-left: 0;
+  }
+
+  ul>li {
+    display: inline;
+    padding: 0 0 5px 20px;
+  }
+
+  li:before {
+    content: '';
+    margin: 0 5px 0 0px;
+  }
+
+  .post-time {
+    display: inline;
+  }
+}
+
+@import 'bootstrap/bootstrap';
