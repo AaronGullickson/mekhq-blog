@@ -12,7 +12,7 @@
       {% if scenario.mission-slug == page.slug %}
       <div class="row">
         <div class="col">
-          <div class="container border border-info rounded my-2">
+          <div class="container scenario border border-secondary rounded my-2">
             <h3>{{ scenario.title }}</h3>
             {{ scenario.date | date_to_long_string }}
             {{ scenario.content | markdownify }}

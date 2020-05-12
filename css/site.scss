@@ -44,8 +44,8 @@ $headings-font-family:Comfortaa;
 @import url(https://fonts.googleapis.com/css?family=Comfortaa:200,300,400,700);
 $font-family-base:Comfortaa;
 
-$primary:#FF550B;
-$secondary:#303030;
+$primary:#303030;
+$secondary:#FF550B;
 $success:#015668;
 $danger:#FF304F;
 $info:#0F81C7;
@@ -57,8 +57,21 @@ $dark:#000000;
 @import "bootstrap/functions";
 @import "bootstrap/variables";
 $body-bg:$dark;
+$link-color: $info;
 $link-hover-color:darken($link-color,20%);
-$navbar-dark-hover-color:$white;
+$navbar-light-color: $secondary;
 $navbar-light-hover-color:$gray-800;
-$navbar-light-active-color:$dark;
+$navbar-light-active-color:darken($secondary,20%);
+$navbar-dark-color: $secondary;
+$navbar-dark-hover-color:$gray-200;
+$navbar-dark-active-color:darken($secondary,20%);
 @import 'bootstrap/bootstrap';
+
+/* custom container for scenarios */
+.container.scenario {
+  //padding-top: 5px;
+  //padding-bottom: 5px;
+  //margin-top: 5px;
+  //margin-bottom: 15px;
+  border-width: 3px !important;
+}
