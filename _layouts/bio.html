@@ -13,10 +13,14 @@
             <b>Callsign: </b>{{page.callsign}}<br>
             {% endif %}
             {% if page.kills %}
+            <b>Age: </b>{{page.age}}<br>
+            {% endif %}
+            {% if page.kills %}
             <b>Kills: </b>{{page.kills}}<br>
             {% endif %}
           </div>
         </div>
+        <hr>
         <div class="row">
           <div class="col">
             {{ content }}
