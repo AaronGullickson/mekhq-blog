@@ -1,0 +1,13 @@
+<ul>
+{% for subforce in site.forces %}
+  {% if subforce.parent-slug == include.parent_slug %}
+    <li> {{subforce.title}}
+    {% include toe-element.html parent_slug=subforce.slug %}
+  {% endif %}
+{% endfor %}
+{% for person in site.personnel %}
+  {% if person.force-slug == include.parent_slug %}
+    <li> {{person.title}}
+  {% endif %}
+{% endfor %}
+</ul>
