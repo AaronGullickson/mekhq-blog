@@ -39,26 +39,38 @@ def count_kills(uuid, kills):
        nkills = nkills + 1
   return nkills
 
-def get_unit_name(unit):
-    entity = unit.find('entity')
-    if(entity is None):
-        return ''
-    return entity.attrib['chassis'] + ' ' + entity.attrib['model']
+def get_unit_name(uuid, units):
+    for unit in units.findall('unit'):
+        if(unit.attrib['id'] == uuid):
+            entity = unit.find('entity')
+            if(entity is None):
+                return ''
+            else:
+                return entity.attrib['chassis'] + ' ' + entity.attrib['model']
+    return None
   
 #loop through units and find the one assigned to a person by uuid
 def find_unit(uuid, units):
     for unit in units.findall('unit'):
         for current_id in unit.findall('driverId'):
             if(current_id is not None and current_id.text is not None and current_id.text == uuid):
-                return get_unit_name(unit)
+                return unit.attrib['id']
+        for current_id in unit.findall('pilotId'):
+            if(current_id is not None and current_id.text is not None and current_id.text == uuid):
+                return unit.attrib['id']
+        for current_id in unit.findall('gunnerId'):
+            if(current_id is not None and current_id.text is not None and current_id.text == uuid):
+                return unit.attrib['id']
+        for current_id in unit.findall('vesselCrewId'):
+            if(current_id is not None and current_id.text is not None and current_id.text == uuid):
+                return unit.attrib['id']
     return None
 
-  
 #loop through all the forces identified in element list and output them to
 #markdown files. At the end it calls itself to iteratively process the tree
 def process_forces(forces_ele, parent_slug):
     for force in forces_ele.findall('force'):
-        force_name = force.find('name').text
+        force_name = force.find('name').text         
         force_desc = get_xml_text(force.find('desc'))
         f = open('campaign/_forces/' + urlify(force_name) + '.md', 'w')
         f.write('---\n')
@@ -73,6 +85,22 @@ def process_forces(forces_ele, parent_slug):
         subforces = force.find('subforces')
         if(subforces is not None):
             process_forces(subforces, urlify(force_name))
+
+#loop through forces and find the force that the unit uuid is a member of
+def find_force(uuid, forces_ele):
+    for force in forces_ele.findall('force'):
+        force_name = force.find('name').text
+        units = force.find('units')
+        if(units is not None):
+            for unit in units.findall('unit'):
+                if(unit.attrib['id'] == uuid):
+                    return force_name
+        subforces = force.find('subforces')
+        if(subforces is not None):
+            found_name = find_force(uuid, subforces)
+            if(found_name is not None):
+                return found_name
+    return None
 
 tree = ET.parse('Flaming Devil Monkeys30740902.cpnx')
 campaign = tree.getroot()
@@ -100,7 +128,12 @@ for person in personnel.findall('person'):
     surname = get_xml_text(person.find('surname'))
     birthdate = get_xml_date(person.find('birthday'))
     deathdate = get_xml_date(person.find('deathday'))
-    unit_name = find_unit(uuid, units)
+    unit_id = find_unit(uuid, units)
+    unit_name = None
+    force_name = None
+    if(unit_id is not None):
+        unit_name = get_unit_name(unit_id, units)
+        force_name = find_force(unit_id, forces)
     dead = deathdate is not None
     if(dead):
         age = relativedelta.relativedelta(deathdate, birthdate).years
@@ -123,6 +156,9 @@ for person in personnel.findall('person'):
         f.write('age: ' + str(age) + '\n')
         if(unit_name is not None):
             f.write('unit: ' + unit_name + '\n')
+        if(force_name is not None):
+            f.write('force: ' + force_name + '\n')
+            f.write('force-slug: ' + urlify(force_name) + '\n')
         if(portrait_path is not ''):
             f.write('portrait: ' + portrait_path + '\n')
         f.write('---\n\n')
