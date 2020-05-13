@@ -4,7 +4,7 @@
       {{content}}    
               {% assign sortedPeople = site.personnel | sort: 'rank-number' | reverse %}
               {% for person in sortedPeople %}
-                {% if person.dead == page.dead and person.role == page.role or page.role == nil  %}
+                {% if person.dead == page.dead and person.role == page.role or page.role == nil %}
                 <div class="row pb-2">
                     <div class="col-md-2">
                         <img class="img-fluid rounded" src="/assets/images/{{ person.portrait }}">
