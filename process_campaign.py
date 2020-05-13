@@ -68,36 +68,57 @@ def find_unit(uuid, units):
 
 #loop through all the forces identified in element list and output them to
 #markdown files. At the end it calls itself to iteratively process the tree
-def process_forces(forces_ele, parent_slug):
+def process_forces(forces_ele, parent_name, parent_slug):
     for force in forces_ele.findall('force'):
-        force_name = force.find('name').text         
+        short_force_name = force.find('name').text
+        if(parent_name is not None):
+            if(parent_name is ''):
+                full_force_name = short_force_name
+            else:
+                full_force_name = parent_name + ', ' + short_force_name
+            slug = urlify(full_force_name)
+        else:
+            #top level force so special things
+            full_force_name = ''
+            slug = urlify(short_force_name)
         force_desc = get_xml_text(force.find('desc'))
-        f = open('campaign/_forces/' + urlify(force_name) + '.md', 'w')
+        f = open('campaign/_forces/' + slug + '.md', 'w')
         f.write('---\n')
         f.write('layout: forces\n')
-        f.write('title: ' + force_name + '\n')
-        f.write('slug: ' + urlify(force_name) + '\n')
-        if(parent_slug is not None):
+        f.write('title: ' + short_force_name + '\n')
+        f.write('slug: ' + slug + '\n')
+        if(parent_name is not None):
+            f.write('parent-name: ' + parent_name + '\n')
             f.write('parent-slug: ' + parent_slug + '\n')
         f.write('---\n\n')
         f.write(unescape(force_desc))
         f.close()
         subforces = force.find('subforces')
         if(subforces is not None):
-            process_forces(subforces, urlify(force_name))
+            process_forces(subforces, full_force_name, slug)
 
 #loop through forces and find the force that the unit uuid is a member of
-def find_force(uuid, forces_ele):
+def find_force(uuid, forces_ele, parent_name, parent_slug):
     for force in forces_ele.findall('force'):
-        force_name = force.find('name').text
+        short_force_name = force.find('name').text
+        if(parent_name is not None):
+            if(parent_name is ''):
+                full_force_name = short_force_name
+            else:
+                full_force_name = parent_name + ', ' + short_force_name
+            slug = urlify(full_force_name)
+        else:
+            #top level force so special things
+            full_force_name = ''
+            slug = urlify(short_force_name)
         units = force.find('units')
         if(units is not None):
             for unit in units.findall('unit'):
                 if(unit.attrib['id'] == uuid):
-                    return force_name
+                    return full_force_name
         subforces = force.find('subforces')
         if(subforces is not None):
-            found_name = find_force(uuid, subforces)
+            found_name = find_force(uuid, subforces, full_force_name, slug)
             if(found_name is not None):
                 return found_name
     return None
@@ -117,7 +138,7 @@ forces = campaign.find('forces')
 units = campaign.find('units')
 
 # process forces
-process_forces(forces, None)
+process_forces(forces, None, None)
 
 #loop through personnel and print out markdown file for each one
 #currently limiting it to mechwarriors for test purposes
@@ -133,7 +154,7 @@ for person in personnel.findall('person'):
     force_name = None
     if(unit_id is not None):
         unit_name = get_unit_name(unit_id, units)
-        force_name = find_force(unit_id, forces)
+        force_name = find_force(unit_id, forces, None, None)
     dead = deathdate is not None
     if(dead):
         age = relativedelta.relativedelta(deathdate, birthdate).years
