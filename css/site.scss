@@ -56,6 +56,7 @@ $dark:#000000;
 /*! Import Bootstrap 4 variables */
 @import "bootstrap/functions";
 @import "bootstrap/variables";
+@import "bootstrap/mixins";
 $body-bg:$dark;
 $link-color: $info;
 $link-hover-color:darken($link-color,20%);
@@ -65,7 +66,19 @@ $navbar-light-active-color:darken($secondary,20%);
 $navbar-dark-color: $secondary;
 $navbar-dark-hover-color:$gray-200;
 $navbar-dark-active-color:darken($secondary,20%);
+
+// links in TO&E should be different color
+@import "bootstrap/utilities";
+.card .btn {
+ color: $secondary;
+
+  @include hover-focus {
+    color: $secondary;
+  }  
+}  
+
 @import 'bootstrap/bootstrap';
+
 
 /* custom container for scenarios */
 .container.scenario {

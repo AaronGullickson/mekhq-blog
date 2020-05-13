@@ -4,7 +4,7 @@
       {{content}}    
       <div class="row">
         <div class="col">
-          <div class="container my-2">
+          <div class="container bg-light my-2">
             {% for force in site.forces %}
               {% if force.parent-slug == nil %}
                 {% capture topslug %}
@@ -12,7 +12,6 @@
                 {% endcapture %}
               {% endif %}
             {% endfor %}
-            {{ topslug }}
             {% include toe-element.html parent_slug="flaming-devil-monkeys" %}
           </div>
         </div>

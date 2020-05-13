@@ -1,20 +1,37 @@
-<ul class="list-group">
-{% for subforce in site.forces %}
-  {% if subforce.parent-slug == include.parent_slug %}
-    <li class="list-group-item  list-group-item-success">
-    <a href="{{ subforce.url }}"><h4>{{ subforce.title }}</h4></a>
-    {% include toe-element.html parent_slug=subforce.slug %}
-    </li>
-  {% endif %}
-{% endfor %}
-{% for person in site.personnel %}
-  {% if person.force-slug == include.parent_slug %}
-    <li class="list-group-item list-group-item-success">
-    <div class="row">
-    <div class="col-1 rounded"><img class="img-fluid" src="/assets/images/{{ person.portrait }}" ></div>
-    <div class="col"><a href="{{ person.url }}">{{person.title}}</a> {%if person.unit %}, {{person.unit}}{% endif %}</div>
-    </div>
-    </li>
-  {% endif %}
-{% endfor %}
-</ul>
+<div class="accordion" id="accordion-{{include.parent_slug}}">
+  {% for subforce in site.forces %}
+    {% if subforce.parent-slug == include.parent_slug %}
+      <div class="card">
+        <div class="card-header bg-primary" id="{{subforce.slug}}-header">
+          <h2 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{ subforce.slug }}" aria-expanded="true" aria-controls="{{ subforce.slug }}">
+              {{ subforce.title }}
+            </button>
+          </h2>
+        </div>
+        <div id="{{ subforce.slug }}" class="collapse hide" aria-labelledby="{{subforce.slug}}-header" data-parent="#accordion-{{include.parent_slug}}">
+          <div class="card-body">
+            {{ subforce.content }}
+            {% include toe-element.html parent_slug=subforce.slug %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+  <ul class="list-group">
+    {% for person in site.personnel %}
+      {% if person.force-slug == include.parent_slug %}
+        <li class="list-group-item list-group-item-dark">
+          <div class="row">
+            <div class="col-1 rounded">
+              <img class="img-fluid" src="/assets/images/{{ person.portrait }}" >
+            </div>
+            <div class="col">
+              <a href="{{ person.url }}">{{person.title}}</a> {%if person.unit %}, {{person.unit}}{% endif %}
+            </div>
+          </div>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>
