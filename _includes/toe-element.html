@@ -1,7 +1,7 @@
-<ul class="list-group">
+<ul class="list-group borderless">
 {% for subforce in site.forces %}
   {% if subforce.parent-slug == include.parent_slug %}
-    <li class="list-group-item">
+    <li class="list-group-item  list-group-item-success">
     <a href="{{ subforce.url }}"><h4>{{ subforce.title }}</h4></a>
     {% include toe-element.html parent_slug=subforce.slug %}
     </li>
@@ -9,9 +9,9 @@
 {% endfor %}
 {% for person in site.personnel %}
   {% if person.force-slug == include.parent_slug %}
-    <li class="list-group-item">
+    <li class="list-group-item list-group-item-success">
     <div class="row">
-    <div class="col-2"><img class="img-fluid" src="/assets/images/{{ person.portrait }}" ></div>
+    <div class="col-1 rounded"><img class="img-fluid" src="/assets/images/{{ person.portrait }}" ></div>
     <div class="col"><a href="{{ person.url }}">{{person.title}}</a> {%if person.unit %}, {{person.unit}}{% endif %}</div>
     </div>
     </li>
