@@ -1,0 +1,18 @@
+- title: Home
+  url: /index.html
+- title: Fiction
+  url: /fiction.html
+- title: Mission History
+  url: /missions.html
+- title: TO&E
+  url: /toe.html
+- title: Personnel
+  url: /personnel.html
+  sublinks:
+    - title: Combat Personnel
+      url: /combat-personnel.html
+    - title: Non-Combat Personnel
+      url: /non-combat-personnel.html
+    - title: separator
+    - title: Rolls of Honor
+      url: /rolls-honor.html
