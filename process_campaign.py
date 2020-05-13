@@ -173,6 +173,7 @@ for person in personnel.findall('person'):
         f.write('---\n')
         f.write('layout: bio\n')
         f.write('title: ' + name + '\n')
+        f.write('role: ' + str(primary_role) + '\n')
         if(callsign is not ''):
             f.write('callsign: ' + callsign + '\n')
         f.write('kills: ' + str(count_kills(uuid, kills)) + '\n')
@@ -184,6 +185,7 @@ for person in personnel.findall('person'):
         if(force_name is not None):
             f.write('force: ' + force_name + '\n')
             f.write('force-slug: ' + urlify(force_name) + '\n')
+        f.write('dead: ' + str(dead) + '\n')
         if(portrait_path is not ''):
             f.write('portrait: ' + portrait_path + '\n')
         f.write('---\n\n')

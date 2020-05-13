@@ -9,10 +9,8 @@
 - title: Personnel
   url: /personnel.html
   sublinks:
-    - title: Combat Personnel
-      url: /combat-personnel.html
-    - title: Non-Combat Personnel
-      url: /non-combat-personnel.html
+    - title: Mechwarriors
+      url: /mechwarriors.html
     - title: separator
     - title: Rolls of Honor
       url: /rolls-honor.html
