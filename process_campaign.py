@@ -123,7 +123,7 @@ def find_force(uuid, forces_ele, parent_name, parent_slug):
                 return found_name
     return None
 
-tree = ET.parse('Flaming Devil Monkeys30740902.cpnx')
+tree = ET.parse('Flaming Devil Monkeys30740903.cpnx')
 campaign = tree.getroot()
 campaign_info = campaign.find('info')
 

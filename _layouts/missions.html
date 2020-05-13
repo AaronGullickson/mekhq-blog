@@ -1,0 +1,20 @@
+{% include header.html %}
+  <main role="main">
+    <div class="container top bg-light mt-3">
+      {{content}}
+      {% for mission in site.missions %}
+      <div class="row">
+        <div class="col">
+          <div class="container my-2">
+            <h3><a class="title" href="{{ mission.url }}">{{ mission.title }}</a></h3>            
+            {{mission.content}}
+            <a class="btn btn-secondary" href="{{ mission.url }}" role="button">Mission Details</a>
+            <hr>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+  </main>
+{% include footer.html %}
+</body>
+</html>
