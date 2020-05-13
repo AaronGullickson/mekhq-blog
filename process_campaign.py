@@ -86,6 +86,7 @@ def process_forces(forces_ele, parent_name, parent_slug):
         f.write('---\n')
         f.write('layout: forces\n')
         f.write('title: ' + short_force_name + '\n')
+        f.write('order: ' + force.attrib['id'] + '\n')
         f.write('slug: ' + slug + '\n')
         if(parent_name is not None):
             f.write('parent-name: ' + parent_name + '\n')
@@ -149,6 +150,7 @@ for person in personnel.findall('person'):
     surname = get_xml_text(person.find('surname'))
     birthdate = get_xml_date(person.find('birthday'))
     deathdate = get_xml_date(person.find('deathday'))
+    rank_number = get_xml_text(person.find('rank'))
     unit_id = find_unit(uuid, units)
     unit_name = None
     force_name = None
@@ -175,6 +177,8 @@ for person in personnel.findall('person'):
             f.write('callsign: ' + callsign + '\n')
         f.write('kills: ' + str(count_kills(uuid, kills)) + '\n')
         f.write('age: ' + str(age) + '\n')
+        if(rank_number is not None):
+            f.write('rank-number: ' + rank_number + '\n')
         if(unit_name is not None):
             f.write('unit: ' + unit_name + '\n')
         if(force_name is not None):

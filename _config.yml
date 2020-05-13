@@ -41,7 +41,6 @@ collections:
     output: true
   scenarios:
     output: true
-    sort_by: date
   forces:
     output: true
 

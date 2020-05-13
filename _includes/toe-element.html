@@ -1,5 +1,6 @@
 <div class="accordion" id="accordion-{{include.parent_slug}}">
-  {% for subforce in site.forces %}
+  {% assign sortedForces = site.forces | sort: 'order' %}
+  {% for subforce in sortedForces %}
     {% if subforce.parent-slug == include.parent_slug %}
       <div class="card">
         <div class="card-header bg-primary" id="{{subforce.slug}}-header">
@@ -19,7 +20,8 @@
     {% endif %}
   {% endfor %}
   <ul class="list-group">
-    {% for person in site.personnel %}
+    {% assign sortedPeople = site.personnel | sort: 'rank-number' | reverse %}
+    {% for person in sortedPeople %}
       {% if person.force-slug == include.parent_slug %}
         <li class="list-group-item list-group-item-dark">
           <div class="row">
