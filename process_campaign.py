@@ -38,6 +38,21 @@ def count_kills(uuid, kills):
       if(uuid == kill_id.text):
        nkills = nkills + 1
   return nkills
+
+def get_unit_name(unit):
+    entity = unit.find('entity')
+    if(entity is None):
+        return ''
+    return entity.attrib['chassis'] + ' ' + entity.attrib['model']
+  
+#loop through units and find the one assigned to a person by uuid
+def find_unit(uuid, units):
+    for unit in units.findall('unit'):
+        for current_id in unit.findall('driverId'):
+            if(current_id is not None and current_id.text is not None and current_id.text == uuid):
+                return get_unit_name(unit)
+    return None
+
   
 #loop through all the forces identified in element list and output them to
 #markdown files. At the end it calls itself to iteratively process the tree
@@ -71,6 +86,7 @@ personnel = campaign.find('personnel')
 missions = campaign.find('missions')
 kills = campaign.find('kills')
 forces = campaign.find('forces')
+units = campaign.find('units')
 
 # process forces
 process_forces(forces, None)
@@ -84,6 +100,7 @@ for person in personnel.findall('person'):
     surname = get_xml_text(person.find('surname'))
     birthdate = get_xml_date(person.find('birthday'))
     deathdate = get_xml_date(person.find('deathday'))
+    unit_name = find_unit(uuid, units)
     dead = deathdate is not None
     if(dead):
         age = relativedelta.relativedelta(deathdate, birthdate).years
@@ -104,6 +121,8 @@ for person in personnel.findall('person'):
             f.write('callsign: ' + callsign + '\n')
         f.write('kills: ' + str(count_kills(uuid, kills)) + '\n')
         f.write('age: ' + str(age) + '\n')
+        if(unit_name is not None):
+            f.write('unit: ' + unit_name + '\n')
         if(portrait_path is not ''):
             f.write('portrait: ' + portrait_path + '\n')
         f.write('---\n\n')
