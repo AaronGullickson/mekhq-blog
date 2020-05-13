@@ -25,10 +25,8 @@
       {% if person.force-slug == include.parent_slug %}
         <li class="list-group-item list-group-item-dark">
           <div class="row">
-            <div class="col-1 rounded">
-              <img class="img-fluid" src="/assets/images/{{ person.portrait }}" >
-            </div>
             <div class="col">
+              <img class="img-fluid float-left rounded pr-2" style="width:75px" src="/assets/images/{{ person.portrait }}">
               <a href="{{ person.url }}">{{person.title}}</a> {%if person.unit %}, {{person.unit}}{% endif %}
             </div>
           </div>
