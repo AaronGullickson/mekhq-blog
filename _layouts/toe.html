@@ -7,12 +7,10 @@
           <div class="container bg-light my-2">
             {% for force in site.forces %}
               {% if force.parent-slug == nil %}
-                {% capture topslug %}
-                  {{ force.slug }}
-                {% endcapture %}
+                {% capture topslug %}{{force.slug}}{% endcapture %}
               {% endif %}
             {% endfor %}
-            {% include toe-element.html parent_slug="flaming-devil-monkeys" %}
+            {% include toe-element.html parent_slug=topslug %}
           </div>
         </div>
       </div>
