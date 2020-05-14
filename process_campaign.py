@@ -16,6 +16,8 @@ import re
 import datetime
 from dateutil import relativedelta
 from html import unescape
+import os
+import glob
 
 # ----------------------------------------------------------------------------
 # custom functions
@@ -140,6 +142,26 @@ def find_force(uuid, forces_ele, parent_name, parent_slug):
             if(found_name is not None):
                 return found_name
     return None
+
+# ----------------------------------------------------------------------------
+# Remove old files to start fresh
+# ----------------------------------------------------------------------------
+
+files = glob.glob('campaign/_forces/*')
+for f in files:
+    os.remove(f)
+    
+files = glob.glob('campaign/_missions/*')
+for f in files:
+    os.remove(f)
+    
+files = glob.glob('campaign/_personnel/*')
+for f in files:
+    os.remove(f)
+    
+files = glob.glob('campaign/_scenarios/*')
+for f in files:
+    os.remove(f)
 
 # ----------------------------------------------------------------------------
 # Load the file and top-level information
