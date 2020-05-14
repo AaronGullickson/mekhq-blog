@@ -152,6 +152,42 @@ def find_force(uuid, forces_ele, parent_name, parent_slug):
                 return found_name
     return None
 
+def find_rank(rank_level, role, rank_list):
+    if(role==2 or role==10):
+        rank = rank_list[1][rank_level]
+    elif((role>=3 and role<=6) or role==27):
+        rank = rank_list[2][rank_level]
+    elif(role>=11 and role <=14):
+        rank = rank_list[3][rank_level]
+    elif(role>=7 and role <=8):
+        rank = rank_list[4][rank_level]
+    elif(role>=15 and role <=19):
+        rank = rank_list[5][rank_level]
+    else:
+        rank = rank_list[0][rank_level]
+    rank = check_rank(rank, rank_level, rank_list)
+    if(rank == '-'):
+        return None
+    else:
+        return rank
+    
+def check_rank(rank, rank_level, rank_list):
+    if(rank == '--MW'):
+        rank = rank_list[0][rank_level]
+    elif(rank == '--ASF'):
+        rank = rank_list[1][rank_level]
+    elif(rank == '--VEE'):
+        rank = rank_list[2][rank_level]
+    elif(rank == '--NAVAL'):
+        rank = rank_list[3][rank_level]
+    elif(rank == '--INF'):
+        rank = rank_list[4][rank_level]
+    elif(rank == '--TECH'):
+        rank = rank_list[5][rank_level]
+    else:
+        return rank
+    return check_rank(rank, rank_level, rank_list)
+
 # ----------------------------------------------------------------------------
 # Remove old files to start fresh
 # ----------------------------------------------------------------------------
@@ -178,10 +214,11 @@ for f in files:
 
 tree = ET.parse(campaign_file)
 campaign = tree.getroot()
+
+#stuff we need 
 campaign_info = campaign.find('info')
 date = datetime.datetime.strptime(campaign_info.find('calendar').text, '%Y-%m-%d %H:%M:%S')
-  
-#stuff we need 
+rank_system = campaign_info.find('rankSystem')
 personnel = campaign.find('personnel')
 missions = campaign.find('missions')
 kills = campaign.find('kills')
@@ -195,6 +232,30 @@ units = campaign.find('units')
 # process forces
 process_forces(forces, None, None)
 
+#process ranks. Currently, I think this will only work for custom rank
+#systems.
+#0 - mechwarriors
+#1 - ASF pilots
+#2 - Vehicle crew
+#3 - Naval
+#4 - Infantry
+#5 - Tech
+rank_mw    = []
+rank_asf   = []
+rank_vee   = []
+rank_naval = []
+rank_inf   = []
+rank_tech  = []
+for rank in rank_system.findall("rank"):
+    rank_names = get_xml_text(rank.find('rankNames')).split(",")
+    rank_mw.append(rank_names[0])
+    rank_asf.append(rank_names[1])
+    rank_vee.append(rank_names[2])
+    rank_naval.append(rank_names[3])
+    rank_inf.append(rank_names[4])
+    rank_tech.append(rank_names[5])
+rank_list = [rank_mw, rank_asf, rank_vee, rank_naval, rank_inf, rank_tech]
+
 #loop through personnel and print out markdown file for each one
 #currently limiting it to mechwarriors for test purposes
 for person in personnel.findall('person'):
@@ -206,6 +267,8 @@ for person in personnel.findall('person'):
     birthdate = get_xml_date(person.find('birthday'))
     deathdate = get_xml_date(person.find('deathday'))
     rank_number = get_xml_text(person.find('rank'))
+    if(rank_number is not None):
+        rank_name = find_rank(int(rank_number), primary_role, rank_list)
     unit_id = find_unit(uuid, units)
     unit_name = None
     force_name = None
@@ -221,13 +284,17 @@ for person in personnel.findall('person'):
         name = first
         if(surname is not ''):
             name = name + ' ' + surname
+        title = name
+        if(rank_name is not None):
+            title = rank_name + ' ' + name
         bio = get_xml_text(person.find('biography'))
         portrait_path = get_xml_text(person.find('portraitCategory'))+get_xml_text(person.find('portraitFile'))
         callsign = get_xml_text(person.find('callsign'))
         f = open('campaign/_personnel/' + urlify(name) + '.md', 'w')
         f.write('---\n')
         f.write('layout: bio\n')
-        f.write('title: ' + name + '\n')
+        f.write('title: ' + title + '\n')
+        f.write('name: ' + name + '\n')
         f.write('role: ' + str(primary_role) + '\n')
         f.write('role-name: ' + role_name + '\n')
         if(callsign is not ''):
@@ -236,6 +303,8 @@ for person in personnel.findall('person'):
         f.write('age: ' + str(age) + '\n')
         if(rank_number is not None):
             f.write('rank-number: ' + rank_number + '\n')
+        if(rank_name is not None):
+            f.write('rank-name: ' + rank_name + '\n')
         if(unit_name is not None):
             f.write('unit: ' + unit_name + '\n')
         if(force_name is not None):
