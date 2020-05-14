@@ -22,7 +22,7 @@ mekhq_path = "../Programs/mekhq-0.47.5/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
-campaign_file = 'The Free Company of Oriente30571215.cpnx'
+campaign_file = 'Flaming Devil Monkeys30740904.cpnx'
 
 #beginning of portait paths, only change if default image changes
 portrait_paths = {
@@ -49,6 +49,8 @@ from shutil import copyfile
 
 #clean out punctuation and replace spaces with - for url links and slugs
 def urlify(s):
+    # strip leading and trailing whitespace
+    s = s.strip()
     # Remove all non-word characters (everything except numbers and letters)
     s = re.sub(r"[^\w\s]", '', s)
     # Replace all runs of whitespace with a single dash
@@ -353,6 +355,7 @@ for person in personnel.findall('person'):
             f.write('rank-name: ' + rank_name + '\n')
         if(unit_name is not None):
             f.write('unit: ' + unit_name + '\n')
+        f.write('slug: ' + urlify(name) + '\n')
         if(force_name is not None):
             f.write('force: ' + force_name + '\n')
             f.write('force-slug: ' + urlify(force_name) + '\n')
