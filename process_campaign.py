@@ -128,6 +128,8 @@ tree = ET.parse('Flaming Devil Monkeys30740903.cpnx')
 campaign = tree.getroot()
 campaign_info = campaign.find('info')
 
+roles = [1,2]
+
 #when are we?
 date = datetime.datetime.strptime(campaign_info.find('calendar').text, '%Y-%m-%d %H:%M:%S')
   
@@ -162,7 +164,7 @@ for person in personnel.findall('person'):
         age = relativedelta.relativedelta(deathdate, birthdate).years
     else:
         age = relativedelta.relativedelta(date, birthdate).years
-    if primary_role == 1 and first is not '':
+    if primary_role in roles and first is not '':
         name = first
         if(surname is not ''):
             name = name + ' ' + surname

@@ -1,7 +1,7 @@
 {% include header.html %}
   <main role="main">
     <div class="container top bg-light mt-3">
-      {{content}}    
+      <h2>{{ page.title }}</h2>  
               {% assign sortedPeople = site.personnel | sort: 'rank-number' | reverse %}
               {% for person in sortedPeople %}
                 {% if person.dead == page.dead and person.role == page.role or page.role == nil %}

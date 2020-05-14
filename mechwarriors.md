@@ -5,5 +5,3 @@ role: 1
 dead: False
 permalink: /mechwarriors.html
 ---
-
-## Mechwarriors
