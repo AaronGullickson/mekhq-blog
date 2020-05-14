@@ -84,7 +84,7 @@ def process_forces(forces_ele, parent_name, parent_slug):
         force_desc = get_xml_text(force.find('desc'))
         f = open('campaign/_forces/' + slug + '.md', 'w')
         f.write('---\n')
-        f.write('layout: forces\n')
+        f.write('layout: force\n')
         f.write('title: ' + short_force_name + '\n')
         f.write('order: ' + force.attrib['id'] + '\n')
         f.write('slug: ' + slug + '\n')
