@@ -1,10 +1,25 @@
 #!/usr/bin/env python3
 
+# ----------------------------------------------------------------------------
+# Basic parameters - change as needed 
+# ----------------------------------------------------------------------------
+
+roles = [1,2]
+campaign_file = 'Flaming Devil Monkeys30740903.cpnx'
+
+# ----------------------------------------------------------------------------
+# imports
+# ----------------------------------------------------------------------------
+
 import xml.etree.ElementTree as ET
 import re
 import datetime
 from dateutil import relativedelta
 from html import unescape
+
+# ----------------------------------------------------------------------------
+# custom functions
+# ----------------------------------------------------------------------------
 
 #clean out punctuation and replace spaces with - for url links
 def urlify(s):
@@ -39,6 +54,7 @@ def count_kills(uuid, kills):
        nkills = nkills + 1
   return nkills
 
+# get the name of the unit assigned to person uuid
 def get_unit_name(uuid, units):
     for unit in units.findall('unit'):
         if(unit.attrib['id'] == uuid):
@@ -98,7 +114,8 @@ def process_forces(forces_ele, parent_name, parent_slug):
         if(subforces is not None):
             process_forces(subforces, full_force_name, slug)
 
-#loop through forces and find the force that the unit uuid is a member of
+#loop through forces and find the force that the unit uuid is a member of, 
+#iteratively recursing through the subforces
 def find_force(uuid, forces_ele, parent_name, parent_slug):
     for force in forces_ele.findall('force'):
         short_force_name = force.find('name').text
@@ -124,21 +141,25 @@ def find_force(uuid, forces_ele, parent_name, parent_slug):
                 return found_name
     return None
 
-tree = ET.parse('Flaming Devil Monkeys30740903.cpnx')
+# ----------------------------------------------------------------------------
+# Load the file and top-level information
+# ----------------------------------------------------------------------------
+
+tree = ET.parse(campaign_file)
 campaign = tree.getroot()
 campaign_info = campaign.find('info')
-
-roles = [1,2]
-
-#when are we?
 date = datetime.datetime.strptime(campaign_info.find('calendar').text, '%Y-%m-%d %H:%M:%S')
   
-#some stuff we need
+#stuff we need 
 personnel = campaign.find('personnel')
 missions = campaign.find('missions')
 kills = campaign.find('kills')
 forces = campaign.find('forces')
 units = campaign.find('units')
+
+# ----------------------------------------------------------------------------
+# Process the xml and output results to campaign directory
+# ----------------------------------------------------------------------------
 
 # process forces
 process_forces(forces, None, None)
