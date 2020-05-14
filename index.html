@@ -1,0 +1,11 @@
+---
+layout: default
+title: Home
+permalink: /index.html
+---
+ 
+ {% for force in site.forces %}
+  {% if force.parent-slug == nil %}
+    {{ force.content }}
+  {% endif %}
+ {% endfor %}
