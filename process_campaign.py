@@ -18,7 +18,7 @@ mekhq_path = "../Programs/mekhq-0.47.5/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
-campaign_file = 'Flaming Devil Monkeys30740904.cpnx'
+campaign_file = 'The Free Company of Oriente30571215.cpnx'
 
 #beginning of portait paths, only change if default image changes
 portrait_paths = {
@@ -43,12 +43,16 @@ from shutil import copyfile
 # custom functions
 # ----------------------------------------------------------------------------
 
-#clean out punctuation and replace spaces with - for url links
+#clean out punctuation and replace spaces with - for url links and slugs
 def urlify(s):
     # Remove all non-word characters (everything except numbers and letters)
     s = re.sub(r"[^\w\s]", '', s)
     # Replace all runs of whitespace with a single dash
     s = re.sub(r"\s+", '-', s)
+    #slugs have trouble with numbers as the first letter, so add 
+    #a letter if this is the case
+    if(s[0].isdigit()):
+        s = "n" + s
     return s.lower()
 
 #takes an xml element and returns either the text of element if it exists
