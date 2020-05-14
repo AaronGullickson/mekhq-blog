@@ -20,6 +20,11 @@ mekhq_path = "../Programs/mekhq-0.47.5/"
 #mekhq directory
 campaign_file = 'Flaming Devil Monkeys30740904.cpnx'
 
+#beginning of portait paths, only change if default image changes
+portrait_paths = {
+    "default.gif": "default.gif"
+}
+
 # ----------------------------------------------------------------------------
 # imports
 # ----------------------------------------------------------------------------
@@ -31,6 +36,8 @@ from dateutil import relativedelta
 from html import unescape
 import os
 import glob
+from shutil import copyfile
+
 
 # ----------------------------------------------------------------------------
 # custom functions
@@ -211,6 +218,10 @@ for f in files:
 files = glob.glob('campaign/_scenarios/*')
 for f in files:
     os.remove(f)
+    
+files = glob.glob('assets/images/portraits/*')
+for f in files:
+    os.remove(f)
 
 # ----------------------------------------------------------------------------
 # Load the file and top-level information
@@ -292,7 +303,8 @@ for person in personnel.findall('person'):
         if(rank_name is not None):
             title = rank_name + ' ' + name
         bio = get_xml_text(person.find('biography'))
-        portrait_path = get_xml_text(person.find('portraitCategory'))+get_xml_text(person.find('portraitFile'))
+        portrait_file = get_xml_text(person.find('portraitFile'))
+        portrait_path = get_xml_text(person.find('portraitCategory'))+portrait_file
         callsign = get_xml_text(person.find('callsign'))
         f = open('campaign/_personnel/' + urlify(name) + '.md', 'w')
         f.write('---\n')
@@ -315,8 +327,9 @@ for person in personnel.findall('person'):
             f.write('force: ' + force_name + '\n')
             f.write('force-slug: ' + urlify(force_name) + '\n')
         f.write('dead: ' + str(dead) + '\n')
-        if(portrait_path is not ''):
-            f.write('portrait: ' + portrait_path + '\n')
+        if(portrait_path is not '' and portrait_file is not ''):
+            portrait_paths[portrait_file] = portrait_path
+            f.write('portrait: ' + portrait_file + '\n')
         f.write('---\n\n')
         f.write(unescape(bio))
         f.close()
@@ -356,3 +369,15 @@ for mission in missions.findall('mission'):
                 f.write('#### After-Action Report\n\n')
                 f.write(scenario_aar)
             f.close()
+
+# ----------------------------------------------------------------------------
+# Copy over data from MekHQ
+# ----------------------------------------------------------------------------
+
+#copy over images
+for portrait_name in portrait_paths:
+    portrait_path = portrait_paths[portrait_name]
+    copyfile(mekhq_path + 'data/images/portraits/' + portrait_path, 'assets/images/portraits/' + portrait_name)
+
+    
+#copyfile(mekhq_path + "data/images/portraits/default.gif", "assets/images/portraits/default.gif")
