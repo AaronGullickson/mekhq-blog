@@ -4,7 +4,16 @@
 # Basic parameters - change as needed 
 # ----------------------------------------------------------------------------
 
+#change this to choose which personnel get loaded based on personnel types
+#in mekhq
+#https://github.com/MegaMek/mekhq/blob/master/MekHQ/src/mekhq/campaign/personnel/Person.java#L75
 roles = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25]
+
+#role names for ALL roles in MekHQ by index number. You can change names, but 
+#do not remove values, even if you do not use the role above
+role_names = ["Mechwarrior", "Aerospace Pilot", "Vehicle Driver", "Naval Vessel Driver", "VTOL Pilot", "Vehicle Gunner", "Battle Armor Pilot", "Conventional Infantry", "Protomech Pilot", "Conventional Fighter Pilot", "Space Vessel Pilot", "Space Vessel Crew", "Space Vessel Gunner", "Hyperspace Navigator", "Mech Tech", "Mechanic", "Aero Tech", "Battle Armor Tech", "Astech", "Doctor", "Medic", "Admin/Command", "Admin/Logistical", "Admin/Transport", "Admin/HR", "LAM Pilot", "Vehicle Crew"]
+
+#the name of your campaign file
 campaign_file = 'Flaming Devil Monkeys30740903.cpnx'
 
 # ----------------------------------------------------------------------------
@@ -191,6 +200,7 @@ process_forces(forces, None, None)
 for person in personnel.findall('person'):
     uuid  = person.find('id').text
     primary_role = int(person.find('primaryRole').text)
+    role_name = role_names[primary_role-1]
     first = get_xml_text(person.find('givenName'))
     surname = get_xml_text(person.find('surname'))
     birthdate = get_xml_date(person.find('birthday'))
@@ -219,6 +229,7 @@ for person in personnel.findall('person'):
         f.write('layout: bio\n')
         f.write('title: ' + name + '\n')
         f.write('role: ' + str(primary_role) + '\n')
+        f.write('role-name: ' + role_name + '\n')
         if(callsign is not ''):
             f.write('callsign: ' + callsign + '\n')
         f.write('kills: ' + str(count_kills(uuid, kills)) + '\n')

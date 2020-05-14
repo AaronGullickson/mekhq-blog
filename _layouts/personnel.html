@@ -11,6 +11,7 @@
               </div>
               <div class="col-md-10 pt-1">
                 <h4><a href="{{ person.url }}">{{ person.title }}</a></h4>
+                {{ person.role-name }}<br>
                 {% if person.callsign %}
                   <b>Callsign: </b>{{person.callsign}}<br>
                 {% endif %}
@@ -19,9 +20,6 @@
                 {% endif %}
                 {% if person.force %}
                   <b>Unit: </b><a href="/forces/{{ person.force-slug }}">{{person.force}}</a><br>
-                {% endif %}
-                {% if person.age %}
-                  <b>Age: </b>{{person.age}}<br>
                 {% endif %}
               </div>
             </div>
