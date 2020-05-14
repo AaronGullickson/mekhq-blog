@@ -69,7 +69,24 @@ def get_xml_date(ele):
         return datetime.datetime.strptime(ele.text, '%Y-%m-%d %H:%M:%S')
     else:
         return None
-    
+
+#read portrait pathway. Need to check for special cases
+def get_portrait_path(ele):
+    path = get_xml_text(ele)
+    if(path == '-- General --'):
+        return '';
+    else:
+        return path
+
+#read portrait file. Need to check for special cases
+def get_portrait_file(ele):
+    file_name = get_xml_text(ele)
+    if(file_name == 'None'):
+        return '';
+    else:
+        return file_name
+
+
 #loop through kills and count ones belonging to this uuid
 def count_kills(uuid, kills):
   nkills = 0
@@ -283,6 +300,14 @@ for person in personnel.findall('person'):
     role_name = role_names[primary_role-1]
     first = get_xml_text(person.find('givenName'))
     surname = get_xml_text(person.find('surname'))
+    bloodname = get_xml_text(person.find('bloodname'))
+    name = get_xml_text(person.find('name'))
+    if(name == ''):
+        name = first
+        if(surname != ''):
+            name = name + ' ' + surname
+    if(bloodname == ''):
+        name = name + ' ' + bloodname
     birthdate = get_xml_date(person.find('birthday'))
     deathdate = get_xml_date(person.find('deathday'))
     rank_number = get_xml_text(person.find('rank'))
@@ -299,16 +324,13 @@ for person in personnel.findall('person'):
         age = relativedelta.relativedelta(deathdate, birthdate).years
     else:
         age = relativedelta.relativedelta(date, birthdate).years
-    if primary_role in roles and first is not '':
-        name = first
-        if(surname is not ''):
-            name = name + ' ' + surname
+    if primary_role in roles and name is not '':
         title = name
         if(rank_name is not None):
             title = rank_name + ' ' + name
         bio = get_xml_text(person.find('biography'))
-        portrait_file = get_xml_text(person.find('portraitFile'))
-        portrait_path = get_xml_text(person.find('portraitCategory'))+portrait_file
+        portrait_file = get_portrait_file(person.find('portraitFile'))
+        portrait_path = get_portrait_path(person.find('portraitCategory'))+portrait_file
         callsign = get_xml_text(person.find('callsign'))
         f = open('campaign/_personnel/' + urlify(name) + '.md', 'w')
         f.write('---\n')
@@ -317,7 +339,7 @@ for person in personnel.findall('person'):
         f.write('name: ' + name + '\n')
         f.write('role: ' + str(primary_role) + '\n')
         f.write('role-name: ' + role_name + '\n')
-        if(callsign is not ''):
+        if(callsign != ''):
             f.write('callsign: ' + callsign + '\n')
         f.write('kills: ' + str(count_kills(uuid, kills)) + '\n')
         f.write('age: ' + str(age) + '\n')
