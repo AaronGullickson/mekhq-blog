@@ -2,8 +2,6 @@ _site
 .sass-cache
 .jekyll-metadata
 assets/images/*
-campaign/personnel/*.md
 *.cpnx
 .DS_Store
-.Rhistory
 campaign
