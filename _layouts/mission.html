@@ -4,6 +4,25 @@
       <div class="row">
         <div class="col">
           <h2>{{ page.title }}</h2>
+          {% if page.type %}
+            {{page.type}}<br>
+          {% endif %}
+          {% if page.location %}
+            <b>Location:</b> {{page.location}}<br>
+          {% endif %}
+          {% if page.employer %}
+            <b>Employer:</b> {{page.employer}}<br>
+          {% endif %}
+          {% if page.start-date %}
+            <b>Start Date:</b> {{page.start-date | date_to_long_string}}<br>
+          {% endif %}
+          {% if page.start-date %}
+            <b>End Date:</b> {{page.end-date | date_to_long_string}}<br>
+          {% endif %}
+          {% if page.status %}
+            <b>Status:</b> {{page.status}}<br>
+          {% endif %}
+          <p></p>
           {{ content }}
         </div>
       </div>
@@ -12,9 +31,13 @@
       {% if scenario.mission-slug == page.slug %}
       <div class="row">
         <div class="col">
-          <div class="container scenario border border-secondary rounded my-2">
+          <div class="container scenario border bg-info text-white border-primary rounded my-2">
             <h3>{{ scenario.title }}</h3>
-            {{ scenario.date | date_to_long_string }}
+            {{ scenario.date | date_to_long_string }}<br>
+            {% if scenario.status %}
+              <b>Status:</b> {{scenario.status}}<br>
+            {% endif %}
+            <p></p>
             {{ scenario.content | markdownify }}
           </div>
         </div>

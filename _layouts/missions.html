@@ -7,7 +7,26 @@
       <div class="row">
         <div class="col">
           <div class="container my-2">
-            <h3><a class="title" href="{{ mission.url }}">{{ mission.title }}</a></h3>            
+            <h3><a class="title" href="{{ mission.url }}">{{ mission.title }}</a></h3>
+            {% if mission.type %}
+              {{mission.type}}<br>
+            {% endif %}
+            {% if mission.location %}
+              <b>Location:</b> {{mission.location}}<br>
+            {% endif %}
+            {% if mission.employer %}
+              <b>Employer:</b> {{mission.employer}}<br>
+            {% endif %}
+            {% if mission.start-date %}
+              <b>Start Date:</b> {{mission.start-date | date_to_long_string}}<br>
+            {% endif %}
+            {% if mission.start-date %}
+              <b>End Date:</b> {{mission.end-date | date_to_long_string}}<br>
+            {% endif %}
+            {% if mission.status %}
+              <b>Status:</b> {{mission.status}}<br>
+            {% endif %}
+            <p></p>
             {{mission.content}}
             <a class="btn btn-secondary" href="{{ mission.url }}" role="button">Mission Details</a>
             <hr>

@@ -13,6 +13,10 @@ roles = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25]
 #do not remove values, even if you do not use the role above
 role_names = ["Mechwarrior", "Aerospace Pilot", "Vehicle Driver", "Naval Vessel Driver", "VTOL Pilot", "Vehicle Gunner", "Battle Armor Pilot", "Conventional Infantry", "Protomech Pilot", "Conventional Fighter Pilot", "Space Vessel Pilot", "Space Vessel Crew", "Space Vessel Gunner", "Hyperspace Navigator", "Mech Tech", "Mechanic", "Aero Tech", "Battle Armor Tech", "Astech", "Doctor", "Medic", "Admin/Command", "Admin/Logistical", "Admin/Transport", "Admin/HR", "LAM Pilot", "Vehicle Crew"]
 
+#mission and scenario status names
+mission_status_names = ["Active","Completed","Failed","Breached"]
+scenario_status_names = ["Active","Victory","Marginal Victory","Defeat","Marginal Defeat","Draw"]
+
 #relative or absolute path to your mekhq directory including trailing /
 mekhq_path = "../Programs/mekhq-0.47.5/"
 
@@ -367,10 +371,27 @@ for mission in missions.findall('mission'):
     mission_type = get_xml_text(mission.find('type'))
     mission_desc = get_xml_text(mission.find('desc'))
     mission_id = mission.attrib['id']
+    mission_start = get_xml_date(mission.find('startDate'))
+    mission_end = get_xml_date(mission.find('endDate'))
+    mission_employer = get_xml_text(mission.find('employer'))
+    mission_location = get_xml_text(mission.find('systemId'))
+    mission_status = get_xml_text(mission.find('status'))
     f = open('campaign/_missions/' + urlify(mission_name) + '.md', 'w')
     f.write('---\n')
     f.write('layout: mission\n')
     f.write('title: ' + mission_name + '\n')
+    if(mission_start is not None):
+        f.write('start-date: ' + mission_start.strftime('%Y-%m-%d') + '\n')
+    if(mission_end is not None):
+        f.write('end-date: ' + mission_end.strftime('%Y-%m-%d') + '\n')
+    if(mission_type != ''):
+        f.write('type: ' + mission_type + '\n')
+    if(mission_employer != ''):
+        f.write('employer: ' + mission_employer + '\n')
+    if(mission_location != ''):
+        f.write('location: ' + mission_location + '\n')
+    if(mission_status != ''):
+        f.write('status: ' + mission_status_names[int(mission_status)] + '\n')
     f.write('mission-order: ' + mission_id + '\n')
     f.write('slug: ' + urlify(mission_name) + '\n')
     f.write('---\n\n')
@@ -383,18 +404,21 @@ for mission in missions.findall('mission'):
             scenario_desc = get_xml_text(scenario.find('desc'))
             scenario_aar = get_xml_text(scenario.find('report'))
             scenario_date = get_xml_date(scenario.find('date'))
+            scenario_status = get_xml_text(scenario.find('status'))
             f = open('campaign/_scenarios/' + urlify(mission_name + ' ' + scenario_name) + '.md', 'w')
             f.write('---\n')
             f.write('layout: mission\n')
             f.write('title: ' + scenario_name + '\n')
             if(scenario_date is not None):
                 f.write('date: ' + scenario_date.strftime('%Y-%m-%d') + '\n')
+            if(scenario_status != ''):
+                f.write('status: ' + scenario_status_names[int(scenario_status)] + '\n')
             f.write('mission: ' + mission_name + '\n')
             f.write('mission-slug: ' + urlify(mission_name) + '\n')
             f.write('---\n\n')
             f.write(scenario_desc + '\n')
             if(scenario_aar is not ''):
-                f.write('#### After-Action Report\n\n')
+                f.write('\n##### After-Action Report\n\n')
                 f.write(scenario_aar)
             f.close()
 
