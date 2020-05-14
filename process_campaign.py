@@ -366,10 +366,12 @@ for mission in missions.findall('mission'):
     mission_name = mission.find('name').text
     mission_type = get_xml_text(mission.find('type'))
     mission_desc = get_xml_text(mission.find('desc'))
+    mission_id = mission.attrib['id']
     f = open('campaign/_missions/' + urlify(mission_name) + '.md', 'w')
     f.write('---\n')
     f.write('layout: mission\n')
     f.write('title: ' + mission_name + '\n')
+    f.write('mission-order: ' + mission_id + '\n')
     f.write('slug: ' + urlify(mission_name) + '\n')
     f.write('---\n\n')
     f.write(unescape(mission_desc))
