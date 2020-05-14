@@ -13,8 +13,12 @@ roles = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25]
 #do not remove values, even if you do not use the role above
 role_names = ["Mechwarrior", "Aerospace Pilot", "Vehicle Driver", "Naval Vessel Driver", "VTOL Pilot", "Vehicle Gunner", "Battle Armor Pilot", "Conventional Infantry", "Protomech Pilot", "Conventional Fighter Pilot", "Space Vessel Pilot", "Space Vessel Crew", "Space Vessel Gunner", "Hyperspace Navigator", "Mech Tech", "Mechanic", "Aero Tech", "Battle Armor Tech", "Astech", "Doctor", "Medic", "Admin/Command", "Admin/Logistical", "Admin/Transport", "Admin/HR", "LAM Pilot", "Vehicle Crew"]
 
-#the name of your campaign file
-campaign_file = 'Flaming Devil Monkeys30740903.cpnx'
+#relative or absolute path to your mekhq directory including trailing /
+mekhq_path = "../Programs/mekhq-0.47.5/"
+
+#the name of your campaign file within the campaigns directory of your 
+#mekhq directory
+campaign_file = 'Flaming Devil Monkeys30740904.cpnx'
 
 # ----------------------------------------------------------------------------
 # imports
@@ -212,7 +216,7 @@ for f in files:
 # Load the file and top-level information
 # ----------------------------------------------------------------------------
 
-tree = ET.parse(campaign_file)
+tree = ET.parse(mekhq_path + 'campaigns/' + campaign_file)
 campaign = tree.getroot()
 
 #stuff we need 
