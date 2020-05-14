@@ -2,33 +2,33 @@
   <main role="main">
     <div class="container top bg-light mt-3">
       <h2>{{ page.title }}</h2>  
-              {% assign sortedPeople = site.personnel | sort: 'rank-number' | reverse %}
-              {% for person in sortedPeople %}
-                {% if person.dead == page.dead and person.role == page.role or page.role == nil %}
-                <div class="row pb-2">
-                    <div class="col-md-2">
-                        <img class="img-fluid rounded" src="/assets/images/{{ person.portrait }}">
-                    </div>
-                    <div class="col-md-10 pt-1">
-                      <h4><a href="{{ person.url }}">{{ person.title }}</a></h4>
-                      {% if person.callsign %}
-                        <b>Callsign: </b>{{person.callsign}}<br>
-                      {% endif %}
-                      {% if person.unit %}
-                        <b>Vehicle: </b>{{person.unit}}<br>
-                      {% endif %}
-                      {% if person.force %}
-                        <b>Unit: </b><a href="/forces/{{ person.force-slug }}">{{person.force}}</a><br>
-                      {% endif %}
-                      {% if person.age %}
-                        <b>Age: </b>{{person.age}}<br>
-                      {% endif %}
-                  </div>
-                </div>
+        {% assign sortedPeople = site.personnel | sort: 'rank-number' | reverse %}
+        {% for person in sortedPeople %}
+          {% if person.dead == page.dead and page.roles contains person.role or page.roles == nil %}
+            <div class="row pb-2">
+              <div class="col-md-2">
+                <img class="img-fluid rounded" src="/assets/images/{{ person.portrait }}">
+              </div>
+              <div class="col-md-10 pt-1">
+                <h4><a href="{{ person.url }}">{{ person.title }}</a></h4>
+                {% if person.callsign %}
+                  <b>Callsign: </b>{{person.callsign}}<br>
                 {% endif %}
-              {% endfor %}
-          </div>
-  </main>
+                {% if person.unit %}
+                  <b>Vehicle: </b>{{person.unit}}<br>
+                {% endif %}
+                {% if person.force %}
+                  <b>Unit: </b><a href="/forces/{{ person.force-slug }}">{{person.force}}</a><br>
+                {% endif %}
+                {% if person.age %}
+                  <b>Age: </b>{{person.age}}<br>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </main>
 {% include footer.html %}
 </body>
 </html>
