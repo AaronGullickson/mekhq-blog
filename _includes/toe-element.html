@@ -20,9 +20,13 @@
     {% endif %}
   {% endfor %}
   <ul class="list-group">
+    {% assign unitsAdded = '' | split: '' %}
     {% assign sortedPeople = site.personnel | sort: 'rank-number' | reverse %}
     {% for person in sortedPeople %}
+      {%unless unitsAdded contains person.unit-id %}
       {% if person.force-slug == include.parent_slug %}
+        {% assign unitId = person.unit-id | split: ' ' %}
+        {% assign unitsAdded = unitsAdded | concat: unitId %}
         <li class="list-group-item list-group-item-dark">
           <div class="row">
             <div class="col">
@@ -36,6 +40,7 @@
           </div>
         </li>
       {% endif %}
+      {% endunless %}
     {% endfor %}
   </ul>
 </div>
