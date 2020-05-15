@@ -7,7 +7,11 @@
           {% if person.dead == page.dead and page.roles contains person.role or page.roles == nil %}
             <div class="row pb-2">
               <div class="col-md-2">
-                <img class="img-fluid rounded" src="/assets/images/portraits/{{ person.portrait }}">
+                {% if person.portrait %}
+                  <img class="img-fluid rounded" src="/assets/images/portraits/{{ person.portrait }}">
+                {% else %}
+                  <img class="img-fluid rounded" src="/assets/images/portraits/default.gif" style="width:200px">
+                {% endif %}
               </div>
               <div class="col-md-10 pt-1">
                 <h4><a href="{{ person.url }}">{{ person.title }}</a></h4>

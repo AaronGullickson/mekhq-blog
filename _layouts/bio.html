@@ -4,7 +4,11 @@
     <div class="container top bg-light mt-3">
       <div class="row">
           <div class="col-md-2">
+            {% if page.portrait %}
               <img class="img-fluid rounded" src="/assets/images/portraits/{{ page.portrait }}">
+            {% else %}
+              <img class="img-fluid rounded" src="/assets/images/portraits/default.gif" style="width:200px">
+            {% endif %}
           </div>
           <div class="col-md-10 pt-1">
             <h4>{{ page.name }}</h4>
