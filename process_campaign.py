@@ -483,6 +483,15 @@ for person in personnel.findall('person'):
     status = int(get_xml_text(person.find('status')))
     birthdate = get_xml_date(person.find('birthday'))
     deathdate = get_xml_date(person.find('deathday'))
+    clan = get_xml_text(person.find('clan')) == 'true'
+    phenotype = get_xml_text(person.find('phenotype'))
+    if(clan):
+        if(phenotype == '0'):
+            phenotype = 'Freeborn Clan'
+        else:
+            phenotype = 'Trueborn Clan'
+    else:
+        phenotype = ''
     rank_number = get_xml_text(person.find('rank'))
     person_rank_system = get_xml_text(person.find('rankSystem'))
     if(person_rank_system == '' or person_rank_system == '-1'):
@@ -518,6 +527,8 @@ for person in personnel.findall('person'):
         f.write('title: ' + title + '\n')
         f.write('name: ' + name + '\n')
         f.write('status: ' + personnel_status_names[status] + '\n')
+        if(phenotype != ''):
+            f.write('phenotype: ' + phenotype + '\n')
         f.write('role: ' + str(primary_role) + '\n')
         f.write('role-name: ' + role_name + '\n')
         if(skill_desc is not None):
