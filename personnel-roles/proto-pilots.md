@@ -3,6 +3,6 @@ layout: personnel
 title: Protomech Pilots
 roles: 
   - 9
-dead: False
+status: "Active"
 permalink: /proto-pilots.html
 ---

@@ -4,6 +4,6 @@ title: Fighter Pilots
 roles: 
   - 2
   - 10
-dead: False
+status: "Active"
 permalink: /fighter-pilots.html
 ---

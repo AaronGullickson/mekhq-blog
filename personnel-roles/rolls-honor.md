@@ -1,7 +1,7 @@
 ---
 layout: personnel
 title: Rolls of Honor
-dead: True
+status: "Killed in Action"
 permalink: /rolls-honor.html
 ---
 

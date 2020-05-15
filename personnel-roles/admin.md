@@ -6,6 +6,6 @@ roles:
   - 23
   - 24
   - 25
-dead: False
+status: "Active"
 permalink: /admin.html
 ---

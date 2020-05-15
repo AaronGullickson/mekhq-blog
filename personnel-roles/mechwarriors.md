@@ -3,6 +3,6 @@ layout: personnel
 title: Mechwarriors
 roles: 
   - 1
-dead: False
+status: "Active"
 permalink: /mechwarriors.html
 ---

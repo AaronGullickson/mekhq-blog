@@ -13,16 +13,17 @@ roles = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25]
 #do not remove values, even if you do not use the role above
 role_names = ["Mechwarrior", "Aerospace Pilot", "Vehicle Driver", "Naval Vessel Driver", "VTOL Pilot", "Vehicle Gunner", "Battle Armor Pilot", "Conventional Infantry", "Protomech Pilot", "Conventional Fighter Pilot", "Space Vessel Pilot", "Space Vessel Crew", "Space Vessel Gunner", "Hyperspace Navigator", "Mech Tech", "Mechanic", "Aero Tech", "Battle Armor Tech", "Astech", "Doctor", "Medic", "Admin/Command", "Admin/Logistical", "Admin/Transport", "Admin/HR", "LAM Pilot", "Vehicle Crew"]
 
-#mission and scenario status names
+#mission, scenario, and personnel status names
 mission_status_names = ["Active","Completed","Failed","Breached"]
 scenario_status_names = ["Active","Victory","Marginal Victory","Defeat","Marginal Defeat","Draw"]
+personnel_status_names = ['Active','Retired','Killed in Action','Missing in Action']
 
 #relative or absolute path to your mekhq directory including trailing /
 mekhq_path = "../Programs/mekhq-0.47.5/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
-campaign_file = 'Flaming Devil Monkeys30740904.cpnx'
+campaign_file = 'The Free Company of Oriente30571215.cpnx'
 
 #beginning of portait paths, only change if default image changes
 portrait_paths = {
@@ -318,6 +319,7 @@ for person in personnel.findall('person'):
             name = name + ' ' + surname
     if(bloodname == ''):
         name = name + ' ' + bloodname
+    status = int(get_xml_text(person.find('status')))
     birthdate = get_xml_date(person.find('birthday'))
     deathdate = get_xml_date(person.find('deathday'))
     rank_number = get_xml_text(person.find('rank'))
@@ -347,6 +349,7 @@ for person in personnel.findall('person'):
         f.write('layout: bio\n')
         f.write('title: ' + title + '\n')
         f.write('name: ' + name + '\n')
+        f.write('status: ' + personnel_status_names[status] + '\n')
         f.write('role: ' + str(primary_role) + '\n')
         f.write('role-name: ' + role_name + '\n')
         if(callsign != ''):
@@ -363,7 +366,6 @@ for person in personnel.findall('person'):
         if(force_name is not None):
             f.write('force: ' + force_name + '\n')
             f.write('force-slug: ' + urlify(force_name) + '\n')
-        f.write('dead: ' + str(dead) + '\n')
         if(portrait_path is not '' and portrait_file is not ''):
             new_portrait_file = replace_portrait_name(portrait_file, urlify(name))
             portrait_paths[new_portrait_file] = portrait_path

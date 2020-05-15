@@ -7,6 +7,6 @@ roles:
   - 5
   - 6
   - 27
-dead: False
+status: "Active"
 permalink: /vehicle-crew.html
 ---

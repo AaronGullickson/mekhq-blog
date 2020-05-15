@@ -7,6 +7,6 @@ roles:
   - 17
   - 18
   - 19
-dead: False
+status: "Active"
 permalink: /techs.html
 ---

@@ -6,6 +6,6 @@ roles:
   - 12
   - 13
   - 14
-dead: False
+status: "Active"
 permalink: /space-crew.html
 ---

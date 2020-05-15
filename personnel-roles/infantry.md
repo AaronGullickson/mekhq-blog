@@ -3,6 +3,6 @@ layout: personnel
 title: Conventional Infantry
 roles: 
   - 8
-dead: False
+status: "Active"
 permalink: /infantry.html
 ---
