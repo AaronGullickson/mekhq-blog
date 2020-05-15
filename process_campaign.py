@@ -23,7 +23,7 @@ mekhq_path = "../Programs/mekhq-0.47.5/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
-campaign_file = 'The Free Company of Oriente30571215.cpnx'
+campaign_file = 'Fist and Falcon/Binary Bravo, 1st Falcon Strikers.cpnx'
 
 #beginning of portait paths, only change if default image changes
 portrait_paths = {
@@ -230,6 +230,14 @@ def check_rank(rank, rank_level, rank_list):
 def replace_portrait_name(portrait_file, slug):
     suffix = portrait_file.split('.')[1]
     return slug + '.' + suffix
+    
+def find_rank_system(selected_system):
+    rank_tree = ET.parse(mekhq_path + 'data/universe/ranks.xml')
+    rank_systems = rank_tree.getroot()
+    for rank_system in rank_systems.findall('rankSystem'):        
+        if(selected_system == int(get_xml_text(rank_system.find("system")))):
+            return rank_system
+    return None
 
 # ----------------------------------------------------------------------------
 # Remove old files to start fresh
@@ -279,20 +287,18 @@ units = campaign.find('units')
 # process forces
 process_forces(forces, None, None)
 
-#process ranks. Currently, I think this will only work for custom rank
-#systems.
-#0 - mechwarriors
-#1 - ASF pilots
-#2 - Vehicle crew
-#3 - Naval
-#4 - Infantry
-#5 - Tech
+#process ranks
 rank_mw    = []
 rank_asf   = []
 rank_vee   = []
 rank_naval = []
 rank_inf   = []
 rank_tech  = []
+#need to check if they put in a custom rank system or default one
+rank_system_type = int(get_xml_text(rank_system.find("system")))
+#custom is hard-coded as 12!
+if(rank_system_type!=12):
+    rank_system = find_rank_system(rank_system_type)
 for rank in rank_system.findall("rank"):
     rank_names = get_xml_text(rank.find('rankNames')).split(",")
     rank_mw.append(rank_names[0])
