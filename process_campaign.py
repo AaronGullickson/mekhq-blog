@@ -9,7 +9,7 @@ mekhq_path = "../Programs/mekhq-0.47.5/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
-campaign_file = 'The Free Company of Oriente30571215.cpnx'
+campaign_file = 'Flaming Devil Monkeys30740904.cpnx'
 
 #change this to choose which personnel get loaded based on personnel types
 #in mekhq
@@ -503,6 +503,7 @@ for person in personnel.findall('person'):
             title = rank_name + ' ' + name
         bio = get_xml_text(person.find('biography'))
         skill_desc = get_skill_report(person)
+        kill_count = count_kills(uuid, kills)
         portrait_file = get_portrait_file(person.find('portraitFile'))
         portrait_path = get_portrait_path(person.find('portraitCategory'))+portrait_file
         callsign = get_xml_text(person.find('callsign'))
@@ -519,7 +520,8 @@ for person in personnel.findall('person'):
             f.write('skill-detail: ' + skill_desc[1] + '\n')
         if(callsign != ''):
             f.write('callsign: ' + callsign + '\n')
-        f.write('kills: ' + str(count_kills(uuid, kills)) + '\n')
+        if(kill_count>0):
+            f.write('kills: ' + str(kill_count) + '\n')
         f.write('age: ' + str(age) + '\n')
         if(rank_number is not None):
             f.write('rank-number: ' + rank_number + '\n')
