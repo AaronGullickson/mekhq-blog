@@ -612,4 +612,7 @@ for mission in missions.findall('mission'):
 #copy over images
 for portrait_name in portrait_paths:
     portrait_path = portrait_paths[portrait_name]
-    copyfile(mekhq_path + 'data/images/portraits/' + portrait_path, 'assets/images/portraits/' + portrait_name)
+    try:
+        copyfile(mekhq_path + 'data/images/portraits/' + portrait_path, 'assets/images/portraits/' + portrait_name)
+    except:
+        pass
