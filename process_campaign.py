@@ -18,7 +18,7 @@ mission_status_names = ["Active","Completed","Failed","Breached"]
 scenario_status_names = ["Active","Victory","Marginal Victory","Defeat","Marginal Defeat","Draw"]
 
 #relative or absolute path to your mekhq directory including trailing /
-mekhq_path = "../mekhq-0.47.5/"
+mekhq_path = "../Programs/mekhq-0.47.5/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
@@ -226,6 +226,10 @@ def check_rank(rank, rank_level, rank_list):
         return rank
     return check_rank(rank, rank_level, rank_list)
 
+def replace_portrait_name(portrait_file, slug):
+    suffix = portrait_file.split('.')[1]
+    return slug + '.' + suffix
+
 # ----------------------------------------------------------------------------
 # Remove old files to start fresh
 # ----------------------------------------------------------------------------
@@ -361,8 +365,9 @@ for person in personnel.findall('person'):
             f.write('force-slug: ' + urlify(force_name) + '\n')
         f.write('dead: ' + str(dead) + '\n')
         if(portrait_path is not '' and portrait_file is not ''):
-            portrait_paths[portrait_file] = portrait_path
-            f.write('portrait: ' + portrait_file + '\n')
+            new_portrait_file = replace_portrait_name(portrait_file, urlify(name))
+            portrait_paths[new_portrait_file] = portrait_path
+            f.write('portrait: ' + new_portrait_file + '\n')
         f.write('---\n\n')
         f.write(unescape(bio))
         f.close()
@@ -433,6 +438,3 @@ for mission in missions.findall('mission'):
 for portrait_name in portrait_paths:
     portrait_path = portrait_paths[portrait_name]
     copyfile(mekhq_path + 'data/images/portraits/' + portrait_path, 'assets/images/portraits/' + portrait_name)
-
-    
-#copyfile(mekhq_path + "data/images/portraits/default.gif", "assets/images/portraits/default.gif")
