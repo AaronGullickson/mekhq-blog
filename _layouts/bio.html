@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col">
           {% if page.portrait %}
-            <img class="img-fluid img-thumbnail rounded float-left mr-2" src="/assets/images/portraits/{{ page.portrait }}">
+            <img class="img-fluid img-thumbnail rounded float-left mr-3" src="/assets/images/portraits/{{ page.portrait }}">
           {% endif %}
           <div class="col-md-12 pt-1">
             <h4>{{ page.name }}</h4>
@@ -37,6 +37,7 @@
             {% endif %}
             </dl>
         </div>
+        </div>
       </div>
       <hr>
       <div class="row">
@@ -46,7 +47,6 @@
           </div>
         </div>
       </div>
-     </div>
   </main>
   {% include footer.html %}
 </body>
