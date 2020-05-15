@@ -68,10 +68,10 @@ $link-color: $info;
 $link-hover-color:darken($link-color,20%);
 $navbar-light-color: $secondary;
 $navbar-light-hover-color:$gray-800;
-$navbar-light-active-color:darken($secondary,20%);
+$navbar-light-active-color:lighten($secondary,15%);
 $navbar-dark-color: $secondary;
 $navbar-dark-hover-color:$gray-200;
-$navbar-dark-active-color:darken($secondary,20%);
+$navbar-dark-active-color:lighten($secondary,15%);
 
 // links in TO&E should be different color
 @import "bootstrap/utilities";
