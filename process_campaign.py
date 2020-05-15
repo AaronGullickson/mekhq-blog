@@ -311,10 +311,10 @@ def get_skill_report(person):
         if('Piloting/Mech' in skills):
             sk2 = skills['Piloting/Mech']
     elif(role == 2): #ASF pilot
-        if('Gunnery/Aero' in skills):
-            sk1 = skills['Gunnery/Aero']
-        if('Piloting/Aero' in skills):
-            sk2 = skills['Piloting/Aero']
+        if('Gunnery/Aerospace' in skills):
+            sk1 = skills['Gunnery/Aerospace']
+        if('Piloting/Aerospace' in skills):
+            sk2 = skills['Piloting/Aerospace']
     elif(role == 3): #vee driver
         if('Piloting/Ground Vehicle' in skills):
             sk1 = skills['Piloting/Ground Vehicle']
