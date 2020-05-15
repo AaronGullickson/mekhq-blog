@@ -18,7 +18,7 @@ mission_status_names = ["Active","Completed","Failed","Breached"]
 scenario_status_names = ["Active","Victory","Marginal Victory","Defeat","Marginal Defeat","Draw"]
 
 #relative or absolute path to your mekhq directory including trailing /
-mekhq_path = "../Programs/mekhq-0.47.5/"
+mekhq_path = "../mekhq-0.47.5/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
