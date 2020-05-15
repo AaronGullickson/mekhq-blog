@@ -19,12 +19,14 @@ description: >- # this means to ignore newlines until "baseurl:"
   The awesomest mercenary force every assembled in the Inner Sphere. Maybe even the Outer Sphere!
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
+banner_image: true
 
 # Build settings
 markdown: kramdown
 plugins:
   - jekyll-feed
 
+#important for this to be on if you want to date blog entries from ... the future!
 future: true
 
 collections_dir: campaign
