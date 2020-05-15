@@ -15,10 +15,10 @@
       url: /fighter-pilots.html
 #    - title: Protomech Pilots
 #      url: /proto-pilots.html
-#    - title: Vehicle Crew
-#      url: /vehicle-crew.html
-#    - title: Battle Armor Infantry
-#      url: /battlearmor.html
+    - title: Vehicle Crew
+      url: /vehicle-crew.html
+    - title: Battle Armor Infantry
+      url: /battlearmor.html
     - title: Conventional Infantry
       url: /infantry.html
     - title: Space Vessel Crew
