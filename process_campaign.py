@@ -25,9 +25,16 @@ mission_status_names = ["Active","Completed","Failed","Breached"]
 scenario_status_names = ["Active","Victory","Marginal Victory","Defeat","Marginal Defeat","Draw"]
 personnel_status_names = ['Active','Retired','Killed in Action','Missing in Action']
 
+#skill level names
+skill_level_names = ["Ultra-Green","Green","Regular","Veteran","Elite"]
+
 #beginning of portait paths, only change if default image changes
 portrait_paths = {
     "default.gif": "default.gif"
+}
+
+#skill type dictionary
+skill_dict = {
 }
 
 # ----------------------------------------------------------------------------
@@ -239,6 +246,141 @@ def find_rank_system(selected_system):
             return rank_system
     return None
 
+#custom class for skill type
+class SkillType:
+    def __init__(self, name, target, count_up, green, reg, vet, elite):
+        self.name = name
+        self.target = target
+        self.count_up = count_up
+        self.green = green
+        self.reg = reg
+        self.vet = vet
+        self.elite = elite
+    
+    def get_target_desc(self, skill):
+        if(self.count_up):
+            value = self.target + skill.level + skill.bonus
+            return '+' + str(value)
+        else:
+            value = self.target - (skill.level  - skill.bonus)
+            return str(value) + '+'
+    
+    def get_skill_level(self, level):
+        if(level >= self.elite):
+            return 4
+        elif(level >= self.vet):
+            return 3
+        elif(level >= self.reg):
+            return 2
+        elif(level >= self.green):
+            return 1
+        else:
+            return 0
+            
+class Skill:
+    def __init__(self, name, level, bonus):
+        self.name = name
+        self.level = level
+        self.bonus = bonus
+
+def get_skill_desc(sk1, sk2):
+    if(sk1 is None):
+        return None
+    lvl = skill_dict[sk1.name].get_skill_level(sk1.level)
+    tgt_desc = skill_dict[sk1.name].get_target_desc(sk1)
+    if(sk2 is not None):
+        lvl2 = skill_dict[sk2.name].get_skill_level(sk2.level)
+        lvl = int((lvl+lvl2)/2)
+        tgt_desc = tgt_desc + "/" + skill_dict[sk2.name].get_target_desc(sk2)
+        tgt_desc = re.sub(r"\+", '', tgt_desc)
+    return [skill_level_names[lvl], tgt_desc]
+    
+def get_skill_report(person):
+    role = int(person.find('primaryRole').text)
+    skills = {}
+    for skill in person.findall('skill'):
+        sk_name = get_xml_text(skill.find('type'))
+        sk_lvl = int(get_xml_text(skill.find('level')))
+        sk_bns = int(get_xml_text(skill.find('bonus')))
+        skills[sk_name] = Skill(sk_name, sk_lvl, sk_bns)
+    sk1 = None
+    sk2 = None
+    if(role == 1): #mechwarrior
+        if('Gunnery/Mech' in skills):
+            sk1 = skills['Gunnery/Mech']
+        if('Piloting/Mech' in skills):
+            sk2 = skills['Piloting/Mech']
+    elif(role == 2): #ASF pilot
+        if('Gunnery/Aero' in skills):
+            sk1 = skills['Gunnery/Aero']
+        if('Piloting/Aero' in skills):
+            sk2 = skills['Piloting/Aero']
+    elif(role == 3): #vee driver
+        if('Piloting/Ground Vehicle' in skills):
+            sk1 = skills['Piloting/Ground Vehicle']
+    elif(role == 4): #bluewater naval driver
+        if('Piloting/Naval' in skills):
+            sk1 = skills['Piloting/Naval']
+    elif(role == 5): #VTOL pilot
+        if('Piloting/VTOL' in skills):
+            sk1 = skills['Piloting/VTOL']
+    elif(role == 6): #Vee gunner
+        if('Gunnery/Vehicle' in skills):
+            sk1 = skills['Gunnery/Vehicle']
+    elif(role == 7): #BA pilot
+        if('Gunnery/Battlesuit' in skills):
+            sk1 = skills['Gunnery/Battlesuit']
+        if('Anti-Mech' in skills):
+            sk2 = skills['Anti-Mech']
+    elif(role == 8): #Conventional Infantry
+        if('Small Arms' in skills):
+            sk1 = skills['Small Arms']
+    elif(role == 9): #Protomech Pilot
+        if('Gunnery/Protomech' in skills):
+            sk1 = skills['Gunnery/Protomech']
+    elif(role == 10): #Conv Fighter Pilot
+        if('Gunnery/Aircraft' in skills):
+            sk1 = skills['Gunnery/Aircraft']
+        if('Piloting/Jet' in skills):
+            sk2 = skills['Piloting/Jet']
+    elif(role == 11): #Space pilot
+        if('Piloting/Aircraft' in skills):
+            sk1 = skills['Piloting/Spacecraft']
+    elif(role == 12): #space crew
+        if('Tech/Vessel' in skills):
+            sk1 = skills['Tech/Vessel']
+    elif(role == 13): #space gunners
+        if('Gunnery/Spacecraft' in skills):
+            sk1 = skills['Gunnery/Spacecraft']
+    elif(role == 14): #Navigator
+        if('Hyperspace Navigator' in skills):
+            sk1 = skills['Hyperspace Navigation']
+    elif(role == 15): #Mech Tech
+        if('Tech/Mech' in skills):
+            sk1 = skills['Tech/Mech']
+    elif(role == 16): #Mechanic Tech
+        if('Tech/Mechanic' in skills):
+            sk1 = skills['Tech/Mechanic']
+    elif(role == 17): #Aero Tech
+        if('Tech/Aero' in skills):
+            sk1 = skills['Tech/Aero']
+    elif(role == 18): #BA Tech
+        if('Tech/BA' in skills):
+            sk1 = skills['Tech/BA']
+    elif(role == 19): #Astech
+        if('Astech' in skills):
+            sk1 = skills['Astech']
+    elif(role == 20): #Doctor
+        if('Doctor' in skills):
+            sk1 = skills['Doctor']
+    elif(role == 21): #Medic
+        if('Medtech' in skills):
+            sk1 = skills['Medtech']
+    elif(role >= 22 and role <=25): #Admin
+        if('Administration' in skills):
+            sk1 = skills['Administration']
+    return get_skill_desc(sk1, sk2)
+
 # ----------------------------------------------------------------------------
 # Remove old files to start fresh
 # ----------------------------------------------------------------------------
@@ -274,18 +416,16 @@ campaign = tree.getroot()
 campaign_info = campaign.find('info')
 date = datetime.datetime.strptime(campaign_info.find('calendar').text, '%Y-%m-%d %H:%M:%S')
 rank_system = campaign_info.find('rankSystem')
+kills = campaign.find('kills')
+skill_types = campaign.find('skillTypes')
 personnel = campaign.find('personnel')
 missions = campaign.find('missions')
-kills = campaign.find('kills')
 forces = campaign.find('forces')
 units = campaign.find('units')
 
 # ----------------------------------------------------------------------------
 # Process the xml and output results to campaign directory
 # ----------------------------------------------------------------------------
-
-# process forces
-process_forces(forces, None, None)
 
 #process ranks
 rank_mw    = []
@@ -299,6 +439,7 @@ rank_system_type = int(get_xml_text(rank_system.find("system")))
 #custom is hard-coded as 12!
 if(rank_system_type!=12):
     rank_system = find_rank_system(rank_system_type)
+
 for rank in rank_system.findall("rank"):
     rank_names = get_xml_text(rank.find('rankNames')).split(",")
     rank_mw.append(rank_names[0])
@@ -307,7 +448,22 @@ for rank in rank_system.findall("rank"):
     rank_naval.append(rank_names[3])
     rank_inf.append(rank_names[4])
     rank_tech.append(rank_names[5])
+
 rank_list = [rank_mw, rank_asf, rank_vee, rank_naval, rank_inf, rank_tech]
+
+#process skill types
+for skill_type in skill_types.findall("skillType"):
+    skill_name = get_xml_text(skill_type.find('name'))
+    skill_target = int(get_xml_text(skill_type.find('target')))
+    skill_count_up = get_xml_text(skill_type.find('countUp')) == 'true'
+    skill_green = int(get_xml_text(skill_type.find('greenLvl')))
+    skill_reg = int(get_xml_text(skill_type.find('regLvl')))
+    skill_vet = int(get_xml_text(skill_type.find('vetLvl')))
+    skill_elite = int(get_xml_text(skill_type.find('eliteLvl')))
+    skill_dict[skill_name] = SkillType(skill_name, skill_target, skill_count_up, skill_green, skill_reg, skill_vet, skill_elite)
+
+# process forces
+process_forces(forces, None, None)
 
 #loop through personnel and print out markdown file for each one
 for person in personnel.findall('person'):
@@ -346,6 +502,7 @@ for person in personnel.findall('person'):
         if(rank_name is not None):
             title = rank_name + ' ' + name
         bio = get_xml_text(person.find('biography'))
+        skill_desc = get_skill_report(person)
         portrait_file = get_portrait_file(person.find('portraitFile'))
         portrait_path = get_portrait_path(person.find('portraitCategory'))+portrait_file
         callsign = get_xml_text(person.find('callsign'))
@@ -357,6 +514,9 @@ for person in personnel.findall('person'):
         f.write('status: ' + personnel_status_names[status] + '\n')
         f.write('role: ' + str(primary_role) + '\n')
         f.write('role-name: ' + role_name + '\n')
+        if(skill_desc is not None):
+            f.write('skill-level: ' + skill_desc[0] + '\n')
+            f.write('skill-detail: ' + skill_desc[1] + '\n')
         if(callsign != ''):
             f.write('callsign: ' + callsign + '\n')
         f.write('kills: ' + str(count_kills(uuid, kills)) + '\n')
