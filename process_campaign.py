@@ -373,7 +373,7 @@ for mission in missions.findall('mission'):
     mission_name = mission.find('name').text
     mission_type = get_xml_text(mission.find('type'))
     mission_desc = get_xml_text(mission.find('desc'))
-    mission_id = mission.attrib['id']
+    mission_id = int(mission.attrib['id'])*10
     mission_start = get_xml_date(mission.find('startDate'))
     mission_end = get_xml_date(mission.find('endDate'))
     mission_employer = get_xml_text(mission.find('employer'))
@@ -395,7 +395,7 @@ for mission in missions.findall('mission'):
         f.write('location: ' + mission_location + '\n')
     if(mission_status != ''):
         f.write('status: ' + mission_status_names[int(mission_status)] + '\n')
-    f.write('mission-order: ' + mission_id + '\n')
+    f.write('mission-order: ' + str(mission_id) + '\n')
     f.write('slug: ' + urlify(mission_name) + '\n')
     f.write('---\n\n')
     f.write(unescape(mission_desc))
