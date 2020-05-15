@@ -212,7 +212,7 @@ def find_rank(rank_level, role, rank_list):
     else:
         rank = rank_list[0][rank_level]
     rank = check_rank(rank, rank_level, rank_list)
-    if(rank == '-'):
+    if(rank == '-' or rank == "None"):
         return None
     else:
         return rank
@@ -262,7 +262,7 @@ class SkillType:
             value = self.target + skill.level + skill.bonus
             return '+' + str(value)
         else:
-            value = self.target - (skill.level  - skill.bonus)
+            value = self.target - (skill.level  + skill.bonus)
             return str(value) + '+'
     
     def get_skill_level(self, level):
