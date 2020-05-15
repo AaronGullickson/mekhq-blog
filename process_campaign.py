@@ -310,7 +310,6 @@ for rank in rank_system.findall("rank"):
 rank_list = [rank_mw, rank_asf, rank_vee, rank_naval, rank_inf, rank_tech]
 
 #loop through personnel and print out markdown file for each one
-#currently limiting it to mechwarriors for test purposes
 for person in personnel.findall('person'):
     uuid  = person.find('id').text
     primary_role = int(person.find('primaryRole').text)
