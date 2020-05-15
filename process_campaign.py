@@ -9,7 +9,7 @@ mekhq_path = "../Programs/mekhq-0.47.5/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
-campaign_file = 'Flaming Devil Monkeys30740904.cpnx'
+campaign_file = 'The Free Company of Oriente30571215.cpnx'
 
 #change this to choose which personnel get loaded based on personnel types
 #in mekhq
@@ -100,6 +100,9 @@ def get_portrait_file(ele):
     else:
         return file_name
 
+def replace_portrait_name(portrait_file, slug):
+    suffix = portrait_file.split('.')[1]
+    return slug + '.' + suffix
 
 #loop through kills and count ones belonging to this uuid
 def count_kills(uuid, kills):
@@ -198,20 +201,20 @@ def find_force(uuid, forces_ele, parent_name, parent_slug):
                 return found_name
     return None
 
-def find_rank(rank_level, role, rank_list):
+def find_rank(rank_level, rank_system, role):
     if(role==2 or role==10):
-        rank = rank_list[1][rank_level]
+        rank = all_rank_lists[rank_system][1][rank_level]
     elif((role>=3 and role<=6) or role==27):
-        rank = rank_list[2][rank_level]
+        rank = all_rank_lists[rank_system][2][rank_level]
     elif(role>=11 and role <=14):
-        rank = rank_list[3][rank_level]
+        rank = all_rank_lists[rank_system][3][rank_level]
     elif(role>=7 and role <=8):
-        rank = rank_list[4][rank_level]
+        rank = all_rank_lists[rank_system][4][rank_level]
     elif(role>=15 and role <=19):
-        rank = rank_list[5][rank_level]
+        rank = all_rank_lists[rank_system][5][rank_level]
     else:
-        rank = rank_list[0][rank_level]
-    rank = check_rank(rank, rank_level, rank_list)
+        rank = all_rank_lists[rank_system][0][rank_level]
+    rank = check_rank(rank, rank_level, all_rank_lists[rank_system])
     if(rank == '-' or rank == "None"):
         return None
     else:
@@ -234,17 +237,22 @@ def check_rank(rank, rank_level, rank_list):
         return rank
     return check_rank(rank, rank_level, rank_list)
 
-def replace_portrait_name(portrait_file, slug):
-    suffix = portrait_file.split('.')[1]
-    return slug + '.' + suffix
-    
-def find_rank_system(selected_system):
-    rank_tree = ET.parse(mekhq_path + 'data/universe/ranks.xml')
-    rank_systems = rank_tree.getroot()
-    for rank_system in rank_systems.findall('rankSystem'):        
-        if(selected_system == int(get_xml_text(rank_system.find("system")))):
-            return rank_system
-    return None
+def process_rank_system(rsystem):
+    rank_mw    = []
+    rank_asf   = []
+    rank_vee   = []
+    rank_naval = []
+    rank_inf   = []
+    rank_tech  = []    
+    for rank in rsystem.findall("rank"):
+        rank_names = get_xml_text(rank.find('rankNames')).split(",")
+        rank_mw.append(rank_names[0])
+        rank_asf.append(rank_names[1])
+        rank_vee.append(rank_names[2])
+        rank_naval.append(rank_names[3])
+        rank_inf.append(rank_names[4])
+        rank_tech.append(rank_names[5])
+    return [rank_mw, rank_asf, rank_vee, rank_naval, rank_inf, rank_tech]
 
 #custom class for skill type
 class SkillType:
@@ -415,7 +423,6 @@ campaign = tree.getroot()
 #stuff we need 
 campaign_info = campaign.find('info')
 date = datetime.datetime.strptime(campaign_info.find('calendar').text, '%Y-%m-%d %H:%M:%S')
-rank_system = campaign_info.find('rankSystem')
 kills = campaign.find('kills')
 skill_types = campaign.find('skillTypes')
 personnel = campaign.find('personnel')
@@ -424,32 +431,21 @@ forces = campaign.find('forces')
 units = campaign.find('units')
 
 # ----------------------------------------------------------------------------
-# Process the xml and output results to campaign directory
+# Process default and custom rank structure and skill types for later use
 # ----------------------------------------------------------------------------
 
-#process ranks
-rank_mw    = []
-rank_asf   = []
-rank_vee   = []
-rank_naval = []
-rank_inf   = []
-rank_tech  = []
-#need to check if they put in a custom rank system or default one
-rank_system_type = int(get_xml_text(rank_system.find("system")))
-#custom is hard-coded as 12!
-if(rank_system_type!=12):
-    rank_system = find_rank_system(rank_system_type)
+rank_tree = ET.parse(mekhq_path + 'data/universe/ranks.xml')
+rank_systems = rank_tree.getroot()
+all_rank_lists = []
+for rank_system in rank_systems.findall('rankSystem'):        
+    all_rank_lists.append(process_rank_system(rank_system))
 
-for rank in rank_system.findall("rank"):
-    rank_names = get_xml_text(rank.find('rankNames')).split(",")
-    rank_mw.append(rank_names[0])
-    rank_asf.append(rank_names[1])
-    rank_vee.append(rank_names[2])
-    rank_naval.append(rank_names[3])
-    rank_inf.append(rank_names[4])
-    rank_tech.append(rank_names[5])
+#now check for a custom rank system to append
+#custom is hard-coded to 12
+rank_system = campaign_info.find('rankSystem')
+all_rank_lists[12] = process_rank_system(rank_system)
+rank_system_default = int(get_xml_text(rank_system.find("system")))
 
-rank_list = [rank_mw, rank_asf, rank_vee, rank_naval, rank_inf, rank_tech]
 
 #process skill types
 for skill_type in skill_types.findall("skillType"):
@@ -461,6 +457,10 @@ for skill_type in skill_types.findall("skillType"):
     skill_vet = int(get_xml_text(skill_type.find('vetLvl')))
     skill_elite = int(get_xml_text(skill_type.find('eliteLvl')))
     skill_dict[skill_name] = SkillType(skill_name, skill_target, skill_count_up, skill_green, skill_reg, skill_vet, skill_elite)
+
+# ----------------------------------------------------------------------------
+# Process the xml and output results to campaign directory
+# ----------------------------------------------------------------------------
 
 # process forces
 process_forces(forces, None, None)
@@ -484,8 +484,13 @@ for person in personnel.findall('person'):
     birthdate = get_xml_date(person.find('birthday'))
     deathdate = get_xml_date(person.find('deathday'))
     rank_number = get_xml_text(person.find('rank'))
+    person_rank_system = get_xml_text(person.find('rankSystem'))
+    if(person_rank_system == '' or person_rank_system == '-1'):
+        person_rank_system = rank_system_default
+    else:
+        person_rank_system = int(person_rank_system)
     if(rank_number is not None):
-        rank_name = find_rank(int(rank_number), primary_role, rank_list)
+        rank_name = find_rank(int(rank_number), person_rank_system, primary_role)
     unit_id = find_unit(uuid, units)
     unit_name = None
     force_name = None
