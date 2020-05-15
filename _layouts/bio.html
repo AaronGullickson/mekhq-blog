@@ -9,7 +9,7 @@
           {% endif %}
           <div class="col-md-12 pt-1">
             <h4>{{ page.name }}</h4>
-            {% if page.skill-level %}{{ page.skill-level }} {% endif %}{{ page.role-name }}{% if page.skill-detail %} ({{ page.skill-detail }}){% endif %}<br>
+            {% if page.skill-level %}{{ page.skill-level }} {% endif %}{% if page.phenotype %} {{ page.phenotype }} {% endif%}{{ page.role-name }}{% if page.skill-detail %} ({{ page.skill-detail }}){% endif %}<br>
             <dl class="row">
             {% if page.rank-name %}
               <dt class="col-md-2 mb-0 pl-0">Rank:</dt>

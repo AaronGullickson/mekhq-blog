@@ -15,7 +15,7 @@
               </div>
               <div class="col-md-10 pt-1">
                 <h4><a href="{{ person.url }}">{{ person.title }}</a></h4>
-                {% if person.skill-level %}{{ person.skill-level }} {% endif %}{{ person.role-name }}{% if person.skill-detail %} ({{ person.skill-detail }}){% endif %}<br>
+                {% if person.skill-level %}{{ person.skill-level }} {% endif %}{% if person.phenotype %} {{ person.phenotype }} {% endif%}{{ person.role-name }}{% if person.skill-detail %} ({{ person.skill-detail }}){% endif %}<br>
                 {% if person.callsign %}
                   <strong>Callsign: </strong>{{person.callsign}}<br>
                 {% endif %}
