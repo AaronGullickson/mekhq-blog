@@ -4,6 +4,13 @@
 # Basic parameters - change as needed 
 # ----------------------------------------------------------------------------
 
+#relative or absolute path to your mekhq directory including trailing /
+mekhq_path = "../Programs/mekhq-0.47.5/"
+
+#the name of your campaign file within the campaigns directory of your 
+#mekhq directory
+campaign_file = 'Fist and Falcon/Binary Bravo, 1st Falcon Strikers.cpnx'
+
 #change this to choose which personnel get loaded based on personnel types
 #in mekhq
 #https://github.com/MegaMek/mekhq/blob/master/MekHQ/src/mekhq/campaign/personnel/Person.java#L75
@@ -17,13 +24,6 @@ role_names = ["Mechwarrior", "Aerospace Pilot", "Vehicle Driver", "Naval Vessel 
 mission_status_names = ["Active","Completed","Failed","Breached"]
 scenario_status_names = ["Active","Victory","Marginal Victory","Defeat","Marginal Defeat","Draw"]
 personnel_status_names = ['Active','Retired','Killed in Action','Missing in Action']
-
-#relative or absolute path to your mekhq directory including trailing /
-mekhq_path = "../Programs/mekhq-0.47.5/"
-
-#the name of your campaign file within the campaigns directory of your 
-#mekhq directory
-campaign_file = 'Fist and Falcon/Binary Bravo, 1st Falcon Strikers.cpnx'
 
 #beginning of portait paths, only change if default image changes
 portrait_paths = {
