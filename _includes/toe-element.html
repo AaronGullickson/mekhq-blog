@@ -31,9 +31,9 @@
           <div class="row">
             <div class="col">
               {% if person.portrait %}
-                <img class="img-fluid float-left rounded pr-2" style="width:75px" src="/assets/images/portraits/{{ person.portrait }}">
+                <img class="img-fluid img-thumbnail float-left rounded mr-2" style="width:75px" src="/assets/images/portraits/{{ person.portrait }}">
               {% else %}
-                <img class="img-fluid float-left rounded pr-2" style="width:75px" src="/assets/images/portraits/default.gif">
+                <img class="img-fluid float-left rounded mr-2" style="width:75px" src="/assets/images/portraits/default.gif">
               {% endif %}
               <a href="{{ person.url }}">{{person.title}}</a> {%if person.unit %}, {{person.unit}}{% endif %}
             </div>

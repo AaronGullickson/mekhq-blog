@@ -3,40 +3,47 @@
   <main role="main">
     <div class="container top bg-light mt-3">
       <div class="row">
-          <div class="col-md-2">
-            {% if page.portrait %}
-              <img class="img-fluid rounded" src="/assets/images/portraits/{{ page.portrait }}">
-            {% else %}
-              <img class="img-fluid rounded" src="/assets/images/portraits/default.gif" style="width:200px">
-            {% endif %}
-          </div>
-          <div class="col-md-10 pt-1">
+        <div class="col">
+          {% if page.portrait %}
+            <img class="img-fluid img-thumbnail rounded float-left mr-2" src="/assets/images/portraits/{{ page.portrait }}">
+          {% endif %}
+          <div class="col-md-12 pt-1">
             <h4>{{ page.name }}</h4>
             {{ page.role-name }}<br>
+            <dl class="row">
             {% if page.rank-name %}
-              <b>Rank: </b>{{page.rank-name}}<br>
+              <dt class="col-md-2 mb-0 pl-0">Rank:</dt>
+              <dd class="col-md-10 mb-0 pl-0">{{page.rank-name}}</dd>
             {% endif %}
             {% if page.callsign %}
-              <b>Callsign: </b>{{page.callsign}}<br>
+              <dt class="col-md-2 mb-0 pl-0">Callsign:</dt>
+              <dd class="col-md-10 mb-0 pl-0">{{page.callsign}}</dd>
             {% endif %}
             {% if page.unit %}
-              <b>Vehicle: </b>{{page.unit}}<br>
+              <dt class="col-md-2 mb-0 pl-0">Vehicle:</dt>
+              <dd class="col-md-10 mb-0 pl-0">{{page.unit}}</dd>
             {% endif %}
             {% if page.force %}
-              <b>Unit: </b><a href="/forces/{{ page.force-slug }}">{{page.force}}</a><br>
+              <dt class="col-md-2 mb-0 pl-0">Unit:</dt>
+              <dd class="col-md-10 mb-0 pl-0"><a href="/forces/{{ page.force-slug }}">{{page.force}}</a></dd>
             {% endif %}
             {% if page.age %}
-              <b>Age: </b>{{page.age}}<br>
+              <dt class="col-md-2 mb-0 pl-0">Age:</dt>
+              <dd class="col-md-10 mb-0 pl-0">{{page.age}}</dd>
             {% endif %}
             {% if page.kills %}
-              <b>Kills: </b>{{page.kills}}<br>
+              <dt class="col-sm-2 mb-0 pl-0">Kills: </dt>
+              <dd class="col-sm-10 mb-0 pl-0">{{page.kills}}</dd>
             {% endif %}
+            </dl>
         </div>
       </div>
       <hr>
       <div class="row">
         <div class="col">
-          {{ content }}
+          <div class="container">
+            {{ content }}
+          </div>
         </div>
       </div>
      </div>
