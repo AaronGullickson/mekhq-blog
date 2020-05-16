@@ -1,7 +1,6 @@
 _site
 .sass-cache
 .jekyll-metadata
-assets/images/*
-*.cpnx
 .DS_Store
-campaign
+#campaign
+#assets/images/portraits/
