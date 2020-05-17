@@ -20,7 +20,13 @@
                   <strong>Callsign: </strong>{{person.callsign}}<br>
                 {% endif %}
                 {% if person.unit %}
-                  <strong>Vehicle: </strong>{{person.unit}}<br>
+                  {% assign custom=nil %}
+                  {% include find-custom.html custom-slug=person.unit-slug %}
+                  {% if custom %}
+                    <strong>Vehicle: </strong><a href="/tro/{{ custom }}">{{person.unit}}</a><br>
+                  {% else %}
+                    <strong>Vehicle: </strong>{{person.unit}}<br>
+                  {% endif %}
                 {% endif %}
                 {% if person.force %}
                   <strong>Unit: </strong><a href="/forces/{{ person.force-slug }}">{{person.force}}</a><br>

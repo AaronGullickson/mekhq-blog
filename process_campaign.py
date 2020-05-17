@@ -9,7 +9,7 @@ mekhq_path = "../Programs/mekhq-0.47.5/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
-campaign_file = 'The Free Company of Oriente30571215.cpnx'
+campaign_file = 'Flaming Devil Monkeys30740904.cpnx'
 
 #change this to choose which personnel get loaded based on personnel types
 #in mekhq
@@ -546,6 +546,7 @@ for person in personnel.findall('person'):
         if(unit_name is not None):
             f.write('unit: ' + unit_name + '\n')
             f.write('unit-id: ' + unit_id + '\n')
+            f.write('unit-slug: ' + urlify(unit_name) + '\n')
         f.write('slug: ' + urlify(name) + '\n')
         if(force_name is not None):
             f.write('force: ' + force_name + '\n')

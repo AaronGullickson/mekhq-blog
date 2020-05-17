@@ -8,7 +8,8 @@ callsign: Fancy...pants
 age: 43
 rank-number: 40
 rank-name: Commander
-unit: Bandersnatch Awesome
+unit: Bandersnatch Ghost Howler
+unit-slug: bandersnatch-ghost-howler
 force: Force Awesome
 force-slug: force-awesome
 dead: False

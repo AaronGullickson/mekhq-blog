@@ -35,7 +35,15 @@
               {% else %}
                 <img class="img-fluid float-left rounded mr-2" style="width:75px" src="/assets/images/portraits/default.gif">
               {% endif %}
-              <a href="{{ person.url }}">{{person.title}}</a> {%if person.unit %}, {{person.unit}}{% endif %}
+              {%if person.unit %}
+                {% assign custom=nil %}
+                {% include find-custom.html custom-slug=person.unit-slug %}
+                {% if custom %}
+                  <a href="{{ person.url }}">{{person.title}}</a>, <a href="/tro/{{ custom }}">{{person.unit}}</a>
+                {% else %}
+                  <a href="{{ person.url }}">{{person.title}}</a>, {{person.unit}}
+                {% endif %}
+              {% endif %}
             </div>
           </div>
         </li>

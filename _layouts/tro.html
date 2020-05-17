@@ -1,0 +1,26 @@
+{% include header.html %}
+  <main role="main">
+    <div class="container top bg-light mt-3">
+      <div class="row">
+        {% if page.image %}
+        <div class="col-md-7">
+        {% else %}
+        <div class="col">
+        {% endif %}
+          <div class="container">
+            {{ content }}
+          </div>
+        </div>
+        {% if page.image %}
+        <div class="col-md-5">
+          <div class="container">
+            <img class="img-fluid rounded" src="/assets/images/units/{{ page.image }}">
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </main>
+{% include footer.html %}
+</body>
+</html>

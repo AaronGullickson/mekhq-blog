@@ -40,6 +40,8 @@ collections:
     output: true
   forces:
     output: true
+  tro:
+    output: true
 
 sass:
   sass_dir: css

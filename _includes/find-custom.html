@@ -1,0 +1,5 @@
+{% for troEntry in site.tro %}
+  {%if troEntry.slug == include.custom-slug %}
+    {% assign custom=troEntry.slug %}
+  {% endif %}
+{% endfor %}

@@ -21,7 +21,12 @@
             {% endif %}
             {% if page.unit %}
               <dt class="col-md-2 mb-0 pl-0">Vehicle:</dt>
-              <dd class="col-md-10 mb-0 pl-0">{{page.unit}}</dd>
+              {% include find-custom.html custom-slug=page.unit-slug %}
+              {% if custom %}
+                <dd class="col-md-10 mb-0 pl-0"><a href="/tro/{{ custom }}">{{page.unit}}</a></dd>
+              {% else %}
+                <dd class="col-md-10 mb-0 pl-0">{{page.unit}}</dd>
+              {% endif %}
             {% endif %}
             {% if page.force %}
               <dt class="col-md-2 mb-0 pl-0">Unit:</dt>
