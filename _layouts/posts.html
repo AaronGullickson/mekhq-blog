@@ -8,7 +8,9 @@
           <div class="container my-2">
             <h3><a class="title" href="{{ post.url }}">{{ post.title }}</a></h3>
             <p>{{ post.date | date: "%B %-d, %Y"}}</p>
-            {{ post.content | split: '<!-- more -->' | first }}<a href="{{ post.url }}">Read more...</a>
+            {{ post.content | split: '<!-- more -->' | first }}
+            <p></p>
+            <a class="btn btn-secondary" href="{{ post.url }}" role="button">Read More</a>
             <hr>
           </div>
         </div>
