@@ -14,7 +14,7 @@ The website is produced as a static website and thus has very simple hosting req
 ### Requirements
 
 - **Jekyll**: follow the installation instructions [here](https://jekyllrb.com/docs/installation/) for your operating system.
-- **Python 3**: Python 3 can be downloaded [here].
+- **Python 3**: Python 3 can be downloaded [here](https://www.python.org/downloads/).
 
 ### Instructions
 
