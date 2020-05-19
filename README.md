@@ -3,7 +3,7 @@
 This repository contains a [jekyll](https://jekyllrb.com/) template and a [python](https://www.python.org/) script that will turn a [MekHQ](https://megamek.org/) campaign save file into a beautiful looking website. Examples of the website in action can be found here:
 
 - [Flaming Devil Monkeys](https://flaming-devil-monkeys.netlify.app)
-- [The Free Company of Oriente](/https://free-company-oriente.netlify.app)
+- [The Free Company of Oriente](https://free-company-oriente.netlify.app/)
 
 The website will produce output for selected personnel, mission and scenario write-ups, and a full TO&E. Additional information such as fiction and TRO readouts can be added as well. Virtually any aspect of the website can be customized through the Jekyll layout system, [Bootstrap](https://getbootstrap.com/), or CSS. 
 
