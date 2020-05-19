@@ -49,15 +49,15 @@ Once you have made and saved these changes, you can run the python file from the
 
 This will create all of the necessary files in your `campaign` directory and add images to your `assets/images` directory. To test whether it worked properly, you can use `jekyll serve` from the command line again to load the website locally, as described above.
 
-### Customization
+## Customization
 
-#### Changing the name and description of your unit
+### Changing the name and description of your unit
 
 Open the `_config.yml` file and change the name and description fields to whatever you would like.
 
-#### Changing color and font settings
+### Changing color and font settings
 
-The color settings are defined at the bottom of the `site.scss` file in the `css` directory. At the bottom you should see something like this:
+The color and font settings are defined at the bottom of the `site.scss` file in the `css` directory. At the bottom you should see something like this:
 
 ```css
 @import url(https://fonts.googleapis.com/css?family=Comfortaa:200,300,400,700);
@@ -75,12 +75,29 @@ $light:#e8e8e8;
 $dark:#000000;
 ```
 
+You can change either the fonts of color settings as you like. I would recommend using [themesr.app](https://themestr.app/theme) for picking out good color themes and fonts. It will generate output that you can copy and paste to the CSS file.
 
+### Adding fiction
 
-#### Choosing which personnel to load 
+You can add blot posts in the `campaign/_posts`. Follow the outline given in the example post. These blog posts are separate from the MekHQ data. If you do not wish to use this feature, you can remove or comment out the Fiction menu item from `_data/navigation.yml`.
+
+### Choosing which personnel to load 
 
 By default, the script will load all personnel except astechs and medics. You can change this by customizing the `roles` value at the top of the `process_campaign.py` script.
 
-#### Personnel types in menu drop-down
+### Personnel types in menu drop-down
 
-You can choose which kinds of personnel to display in the drop-down menu in `navigation.yml`.  Comment out (with #) categories you don't want. The default setting comments out protomech pilots as an example.
+You can choose which kinds of personnel to display in the drop-down menu in `_data/navigation.yml`.  Comment out (with #) categories you don't want. The default setting comments out protomech pilots as an example.
+
+### Adding units
+
+You can use MegaMekLab to export units as HTML files to `campaign/_tro`. In order to be read properly you should add in a YAML header as per the example file and remove the \<html\>, \<body\>, and \<div\> opening and closing tags at the top and bottom. If you provide a slug value in the YAML that matches the unit-slug in a given personnel file, a link will be made from a person's record anytime a unit is listed.
+
+### Further customization
+
+Because the website is written in Jekyll using Bootstrap and CSS, you can customize the look of it virtually however you want if you know how.
+
+## Disclaimers
+
+- I am providing this because it may be of interest, but it was designed for my own personal campaigns and in this early stage is likely to break for others, given the complexity of options in MekHQ. If your campaign will not process, please post an issue that includes the attached campaign file. 
+- I am open to adding additional features to this website which may be requested through the issues tab. However, the goal here is not reproduce every possible thing that MekHQ reports but rather to produce a nice narratively driven website front for your campaign. I will not bloat this produce or provide endless customization options to satisfy BOCD ("Battletech OCD"). 
