@@ -7,8 +7,6 @@ This repository contains a [jekyll](https://jekyllrb.com/) template and a [pytho
 
 The website will produce output for selected personnel, mission and scenario write-ups, and a full TO&E. Additional information such as fiction and TRO readouts can be added as well. Virtually any aspect of the website can be customized through the Jekyll layout system, [Bootstrap](https://getbootstrap.com/), or CSS. 
 
-The website is produced as a static website and thus has very simple hosting requirements. I recommend [netlify](https://www.netlify.com/), but there are other free options as well.
-
 ## Installation
 
 ### Requirements
@@ -101,6 +99,18 @@ You can use MegaMekLab to export units as HTML files to `campaign/_tro`. In orde
 ### Further customization
 
 Because the website is written in Jekyll using Bootstrap and CSS, you can customize the look of it virtually however you want if you know how.
+
+## Hosting
+
+The website is produced as a static website and thus has very simple hosting requirements. I recommend [netlify](https://www.netlify.com/), but there are other free or cheap options as well.
+
+To create your static website, type the following into your command line:
+
+```bash
+jekyll build
+```
+
+This will build your static website in the `_site` directory. You can take everything in that directory and place it wherever you want your static website hosted. Alternatively, if you installed via GitHub, many services like [netlify](https://www.netlify.com/) can deploy directly from your jekyll setup.
 
 ## Disclaimers
 
