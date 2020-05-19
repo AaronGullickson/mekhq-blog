@@ -7,7 +7,7 @@ This repository contains a [jekyll](https://jekyllrb.com/) template and a [pytho
 
 The website will produce output for selected personnel, mission and scenario write-ups, and a full TO&E. Additional information such as fiction and TRO readouts can be added as well. Virtually any aspect of the website can be customized through the Jekyll layout system, [Bootstrap](https://getbootstrap.com/), or CSS. 
 
-The website is produced as a static website and thus has very simple hosting requirements.
+The website is produced as a static website and thus has very simple hosting requirements. I recommend [netlify](https://www.netlify.com/), but there are other free options as well.
 
 ## Installation
 
