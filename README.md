@@ -89,6 +89,11 @@ By default, the script will load all personnel except astechs and medics. You ca
 
 You can choose which kinds of personnel to display in the drop-down menu in `_data/navigation.yml`.  Comment out (with #) categories you don't want. The default setting comments out protomech pilots as an example.
 
+### Changing banner image
+
+Just replace `assets/images/banner_image.png` with your own image. If you don't want a banner image, then set `banner_image` to `false` in the `_config.yml` file.
+
+
 ### Adding units
 
 You can use MegaMekLab to export units as HTML files to `campaign/_tro`. In order to be read properly you should add in a YAML header as per the example file and remove the \<html\>, \<body\>, and \<div\> opening and closing tags at the top and bottom. If you provide a slug value in the YAML that matches the unit-slug in a given personnel file, a link will be made from a person's record anytime a unit is listed.
