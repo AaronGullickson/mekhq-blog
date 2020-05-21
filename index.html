@@ -8,8 +8,10 @@ permalink: /index.html
   <img src="{{ site.logo }}" class="float-left w-25 mr-2 mb-2">
 {% endif %}
  
- {% for force in site.forces %}
-  {% if force.parent-slug == nil %}
-    {{ force.content }}
-  {% endif %}
- {% endfor %}
+ {% if site.toe_front_page %}
+  {% for force in site.forces %}
+    {% if force.parent-slug == nil %}
+      {{ force.content }}
+    {% endif %}
+  {% endfor %}
+ {% endif %}

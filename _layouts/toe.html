@@ -8,8 +8,12 @@
             {% for force in site.forces %}
               {% if force.parent-slug == nil %}
                 {% capture topslug %}{{force.slug}}{% endcapture %}
+                {% capture topcontent %}{{force.content}}{% endcapture %}
               {% endif %}
             {% endfor %}
+            {% unless site.toe_front_page %}
+              {{ topcontent }}
+            {% endunless %}
             {% include toe-element.html parent_slug=topslug %}
           </div>
         </div>
