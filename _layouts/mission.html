@@ -26,7 +26,7 @@
           {{ content }}
           {% assign hasFiction = false %}
           {% for post in site.posts %}
-            {% if post.mission == page.slug %}
+            {% if post.mission contains page.slug %}
               {% assign hasFiction = true %}
             {% endif %}
           {% endfor %}
@@ -34,7 +34,7 @@
             <h5>Related Posts</h5>
             <ul>
             {% for post in site.posts %}
-              {% if post.mission == page.slug %}
+              {% if post.mission contains page.slug %}
                 <li> <a href="{{ post.url }}">{{ post.title }}, {{ post.date | date_to_long_string }}</a>
               {% endif %}
             {% endfor %}
