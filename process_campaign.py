@@ -5,11 +5,11 @@
 # ----------------------------------------------------------------------------
 
 #relative or absolute path to your mekhq directory including trailing /
-mekhq_path = "../Programs/mekhq-0.47.5/"
+mekhq_path = "../../Programs/mekhq-0.47.6/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
-campaign_file = 'Flaming Devil Monkeys30740904.cpnx'
+campaign_file = 'The Free Company of Oriente30571217.cpnx'
 
 #change this to choose which personnel get loaded based on personnel types
 #in mekhq
@@ -24,6 +24,12 @@ role_names = ["Mechwarrior", "Aerospace Pilot", "Vehicle Driver", "Naval Vessel 
 mission_status_names = ["Active","Completed","Failed","Breached"]
 scenario_status_names = ["Active","Victory","Marginal Victory","Defeat","Marginal Defeat","Draw"]
 personnel_status_names = ['Active','Retired','Killed in Action','Missing in Action']
+personnel_status_dict = {
+    "ACTIVE" : "Active",
+    "RETIRED" : "Retired",
+    "KIA": "Killed in Action",
+    "MIA": "Missing in Action"
+}
 
 #skill level names
 skill_level_names = ["Ultra-Green","Green","Regular","Veteran","Elite"]
@@ -80,7 +86,8 @@ def get_xml_text(ele):
 #take an xml element with a date in it and convert to date object
 def get_xml_date(ele):
     if(ele is not None and ele.text is not None):
-        return datetime.datetime.strptime(ele.text, '%Y-%m-%d %H:%M:%S')
+        date  = ele.text.split(" ")[0]
+        return datetime.datetime.strptime(date, '%Y-%m-%d')
     else:
         return None
 
@@ -103,6 +110,15 @@ def get_portrait_file(ele):
 def replace_portrait_name(portrait_file, slug):
     suffix = portrait_file.split('.')[1]
     return slug + '.' + suffix
+
+#they switched over from int to enum for status
+#so need to consider both ways
+def get_person_status(status):
+    if(status.isdigit()):
+        return personnel_status_names[int(status)]
+    else:
+        return personnel_status_dict[status]
+    
 
 #loop through kills and count ones belonging to this uuid
 def count_kills(uuid, kills):
@@ -480,7 +496,7 @@ for person in personnel.findall('person'):
             name = name + ' ' + surname
     if(bloodname != ''):
         name = name + ' ' + bloodname
-    status = int(get_xml_text(person.find('status')))
+    status = get_person_status(get_xml_text(person.find('status')))
     birthdate = get_xml_date(person.find('birthday'))
     deathdate = get_xml_date(person.find('deathday'))
     clan = get_xml_text(person.find('clan')) == 'true'
@@ -526,7 +542,7 @@ for person in personnel.findall('person'):
         f.write('layout: bio\n')
         f.write('title: ' + title + '\n')
         f.write('name: ' + name + '\n')
-        f.write('status: ' + personnel_status_names[status] + '\n')
+        f.write('status: ' + status + '\n')
         if(phenotype != ''):
             f.write('phenotype: ' + phenotype + '\n')
         f.write('role: ' + str(primary_role) + '\n')
