@@ -502,7 +502,7 @@ for person in personnel.findall('person'):
     clan = get_xml_text(person.find('clan')) == 'true'
     phenotype = get_xml_text(person.find('phenotype'))
     if(clan):
-        if(phenotype == '0'):
+        if(phenotype == '0' or phenotype == ''):
             phenotype = 'Freeborn Clan'
         else:
             phenotype = 'Trueborn Clan'
