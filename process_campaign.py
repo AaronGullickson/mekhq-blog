@@ -478,7 +478,7 @@ for person in personnel.findall('person'):
         name = first
         if(surname != ''):
             name = name + ' ' + surname
-    if(bloodname == ''):
+    if(bloodname != ''):
         name = name + ' ' + bloodname
     status = int(get_xml_text(person.find('status')))
     birthdate = get_xml_date(person.find('birthday'))
