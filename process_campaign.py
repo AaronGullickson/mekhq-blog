@@ -9,7 +9,7 @@ mekhq_path = "../Programs/mekhq-0.49.5/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
-campaign_file = 'The Free Company of Oriente30610419.cpnx.gz'
+campaign_file = 'Flaming Devil Monkeys30751208.cpnx.gz'
 
 #change this to choose which personnel get loaded based on personnel types
 #in mekhq
@@ -275,7 +275,7 @@ def find_rank(rank_level, rank_system, role):
         rank = all_rank_lists[rank_system][1][rank_level]
     elif(role in ["GROUND_VEHICLE_DRIVER", "NAVAL_VEHICLE_DRIVER", "VTOL_PILOT", "VEHICLE_GUNNER","VEHICLE_CREW"]):
         rank = all_rank_lists[rank_system][2][rank_level]
-    elif(role in [ "VESSEL_PLOT", "VESSEL_CREW", "VESSEL_GUNNER", "VESSEL_NAVIGATOR"]):
+    elif(role in [ "VESSEL_PILOT", "VESSEL_CREW", "VESSEL_GUNNER", "VESSEL_NAVIGATOR"]):
         rank = all_rank_lists[rank_system][3][rank_level]
     elif(role in ["BATTLE_ARMOUR","SOLDIER"]):
         rank = all_rank_lists[rank_system][4][rank_level]
@@ -398,7 +398,7 @@ def get_skill_report(person):
     elif(role == "NAVAL_VEHICLE_DRIVER"):
         if('Piloting/Naval' in skills):
             sk1 = skills['Piloting/Naval']
-    elif(role == "VTOL_PLOT"):
+    elif(role == "VTOL_PILOT"):
         if('Piloting/VTOL' in skills):
             sk1 = skills['Piloting/VTOL']
     elif(role == "VEHICLE_GUNNER"):
@@ -412,7 +412,7 @@ def get_skill_report(person):
     elif(role == "SOLDIER"):
         if('Small Arms' in skills):
             sk1 = skills['Small Arms']
-    elif(role == "PROTOMECH_PLOT"):
+    elif(role == "PROTOMECH_PILOT"):
         if('Gunnery/Protomech' in skills):
             sk1 = skills['Gunnery/Protomech']
     elif(role == "CONVENTIONAL_AIRCRAFT_PILOT"):
