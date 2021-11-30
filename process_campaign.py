@@ -5,7 +5,7 @@
 # ----------------------------------------------------------------------------
 
 #relative or absolute path to your mekhq directory including trailing /
-mekhq_path = "../Programs/mekhq-0.49.5/"
+mekhq_path = "../../../Programs/mekhq-0.49.5/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
@@ -596,8 +596,13 @@ for person in personnel.findall('person'):
         bio = get_xml_text(person.find('biography'))
         skill_desc = get_skill_report(person)
         kill_count = count_kills(uuid, kills)
-        portrait_file = get_portrait_file(person.find('portraitFile'))
-        portrait_path = get_portrait_path(person.find('portraitCategory'))+portrait_file
+        portrait = person.find('portrait')
+        if(portrait is None):
+            portrait_file = ''
+            portrait_path = ''
+        else:
+            portrait_file = get_portrait_file(portrait.find('filename'))
+            portrait_path = get_portrait_path(portrait.find('category'))+portrait_file
         callsign = get_xml_text(person.find('callsign'))
         f = open('campaign/_personnel/' + urlify(name) + '.md', 'w')
         f.write('---\n')
