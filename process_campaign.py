@@ -5,11 +5,11 @@
 # ----------------------------------------------------------------------------
 
 #relative or absolute path to your mekhq directory including trailing /
-mekhq_path = "../../Programs/mekhq-0.47.6/"
+mekhq_path = "../../../Programs/mekhq-0.47.17/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
-campaign_file = 'The Free Company of Oriente30571217.cpnx'
+campaign_file = 'Flaming Devil Monkeys30751205v10.cpnx'
 
 #change this to choose which personnel get loaded based on personnel types
 #in mekhq
@@ -164,7 +164,7 @@ def process_forces(forces_ele, parent_name, parent_slug):
     for force in forces_ele.findall('force'):
         short_force_name = force.find('name').text
         if(parent_name is not None):
-            if(parent_name is ''):
+            if(parent_name == ''):
                 full_force_name = short_force_name
             else:
                 full_force_name = parent_name + ', ' + short_force_name
@@ -196,7 +196,7 @@ def find_force(uuid, forces_ele, parent_name, parent_slug):
     for force in forces_ele.findall('force'):
         short_force_name = force.find('name').text
         if(parent_name is not None):
-            if(parent_name is ''):
+            if(parent_name == ''):
                 full_force_name = short_force_name
             else:
                 full_force_name = parent_name + ', ' + short_force_name
@@ -438,7 +438,7 @@ campaign = tree.getroot()
 
 #stuff we need 
 campaign_info = campaign.find('info')
-date = datetime.datetime.strptime(campaign_info.find('calendar').text, '%Y-%m-%d %H:%M:%S')
+date = datetime.datetime.strptime(campaign_info.find('calendar').text, '%Y-%m-%d')
 kills = campaign.find('kills')
 skill_types = campaign.find('skillTypes')
 personnel = campaign.find('personnel')
@@ -527,7 +527,7 @@ for person in personnel.findall('person'):
         age = relativedelta.relativedelta(deathdate, birthdate).years
     else:
         age = relativedelta.relativedelta(date, birthdate).years
-    if primary_role in roles and name is not '':
+    if primary_role in roles and name != '':
         title = name
         if(rank_name is not None):
             title = rank_name + ' ' + name
@@ -567,7 +567,7 @@ for person in personnel.findall('person'):
         if(force_name is not None):
             f.write('force: ' + force_name + '\n')
             f.write('force-slug: ' + urlify(force_name) + '\n')
-        if(portrait_path is not '' and portrait_file is not ''):
+        if(portrait_path != '' and portrait_file != ''):
             new_portrait_file = replace_portrait_name(portrait_file, urlify(name))
             portrait_paths[new_portrait_file] = portrait_path
             f.write('portrait: ' + new_portrait_file + '\n')
@@ -628,7 +628,7 @@ for mission in missions.findall('mission'):
             f.write('mission-slug: ' + urlify(mission_name) + '\n')
             f.write('---\n\n')
             f.write(scenario_desc + '\n')
-            if(scenario_aar is not ''):
+            if(scenario_aar != ''):
                 f.write('\n##### After-Action Report\n\n')
                 f.write(scenario_aar)
             f.close()
