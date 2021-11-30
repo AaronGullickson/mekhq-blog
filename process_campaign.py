@@ -5,7 +5,7 @@
 # ----------------------------------------------------------------------------
 
 #relative or absolute path to your mekhq directory including trailing /
-mekhq_path = "../../../Programs/mekhq-0.47.17/"
+mekhq_path = "../Programs/mekhq-0.47.17/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
@@ -498,7 +498,7 @@ for person in personnel.findall('person'):
         name = first
         if(surname != ''):
             name = name + ' ' + surname
-    if(bloodname != ''):
+    if(bloodname != '' and surname == ''):
         name = name + ' ' + bloodname
     status = get_person_status(get_xml_text(person.find('status')))
     birthdate = get_xml_date(person.find('birthday'))
