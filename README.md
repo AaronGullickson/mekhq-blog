@@ -18,7 +18,13 @@ The website will produce output for selected personnel, mission and scenario wri
 
 Download a zip version of this repository using the big green button above or download one of the available releases. Alternatively, this entire repository can be used as a template for a new repository on GitHub. 
 
-Once you have downloaded the repository, you can test that it is functioning by running the following command from the command line in the top-level directory:
+Once you have downloaded the repository, you first need to update the bundler for jekyll. To do that, run the following command from the command line in the top-level directory:
+
+```bash
+bundle update
+```
+
+Once that is complete, you can test that the website is functioning by running the following command from the command line in the top-level directory:
 
 ```bash
 jekyll serve
