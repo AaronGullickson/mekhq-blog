@@ -460,7 +460,11 @@ for rank_system in rank_systems.findall('rankSystem'):
 #custom is hard-coded to 12
 rank_system = campaign_info.find('rankSystem')
 all_rank_lists[12] = process_rank_system(rank_system)
-rank_system_default = int(get_xml_text(rank_system.find("system")))
+if(get_xml_text(rank_system.find("system")) == ''):
+    rank_system_default = 12
+else:
+    rank_system_default = int(get_xml_text(rank_system.find("system")))
+
 
 
 #process skill types
