@@ -9,7 +9,7 @@ mekhq_path = "../Programs/mekhq-0.47.17/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
-campaign_file = 'Flaming Devil Monkeys30751205v10.cpnx'
+campaign_file = 'The Free Company of Oriente30610419.cpnx.gz'
 
 #change this to choose which personnel get loaded based on personnel types
 #in mekhq
@@ -55,6 +55,7 @@ from html import unescape
 import os
 import glob
 from shutil import copyfile
+import gzip
 
 
 # ----------------------------------------------------------------------------
@@ -433,8 +434,13 @@ for f in files:
 # Load the file and top-level information
 # ----------------------------------------------------------------------------
 
-tree = ET.parse(mekhq_path + 'campaigns/' + campaign_file)
-campaign = tree.getroot()
+if campaign_file.endswith("gz"):
+    gzipper = gzip.GzipFile(mekhq_path + 'campaigns/' + campaign_file)
+    data = gzipper.read()
+    campaign = ET.fromstring(data)
+else:
+    tree = ET.parse(mekhq_path + 'campaigns/' + campaign_file)
+    campaign = tree.getroot()
 
 #stuff we need 
 campaign_info = campaign.find('info')
