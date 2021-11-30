@@ -2,11 +2,11 @@
 layout: personnel
 title: Vehicle Crew
 roles: 
-  - 3
-  - 4
-  - 5
-  - 6
-  - 27
+  - "GROUND_VEHICLE_DRIVER"
+  - "NAVAL_VEHICLE_DRIVER"
+  - "VEHICLE_GUNNER"
+  - "VTOL_PILOT"
+  - "VEHICLE_CREW"
 status: "Active"
 permalink: /vehicle-crew.html
 ---

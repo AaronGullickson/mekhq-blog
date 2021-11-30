@@ -2,7 +2,7 @@
 layout: personnel
 title: Mechwarriors
 roles: 
-  - 1
+  - "MECHWARRIOR"
 status: "Active"
 permalink: /mechwarriors.html
 ---

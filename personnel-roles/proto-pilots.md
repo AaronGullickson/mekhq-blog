@@ -2,7 +2,7 @@
 layout: personnel
 title: Protomech Pilots
 roles: 
-  - 9
+  - "PROTOMECH_PILOT"
 status: "Active"
 permalink: /proto-pilots.html
 ---

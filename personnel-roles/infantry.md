@@ -2,7 +2,7 @@
 layout: personnel
 title: Conventional Infantry
 roles: 
-  - 8
+  - "SOLDIER"
 status: "Active"
 permalink: /infantry.html
 ---

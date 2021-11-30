@@ -2,8 +2,8 @@
 layout: personnel
 title: Fighter Pilots
 roles: 
-  - 2
-  - 10
+  - "AEROSPACE_PILOT"
+  - "CONVENTIONAL_AIRCRAFT_PILOT"
 status: "Active"
 permalink: /fighter-pilots.html
 ---

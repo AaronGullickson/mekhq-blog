@@ -5,7 +5,7 @@
 # ----------------------------------------------------------------------------
 
 #relative or absolute path to your mekhq directory including trailing /
-mekhq_path = "../Programs/mekhq-0.47.17/"
+mekhq_path = "../Programs/mekhq-0.49.5/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
@@ -14,15 +14,65 @@ campaign_file = 'The Free Company of Oriente30610419.cpnx.gz'
 #change this to choose which personnel get loaded based on personnel types
 #in mekhq
 #https://github.com/MegaMek/mekhq/blob/master/MekHQ/src/mekhq/campaign/personnel/Person.java#L75
-roles = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25]
+roles = ["MECHWARRIOR","LAM_PILOT","GROUND_VEHICLE_DRIVER",
+         "NAVAL_VEHICLE_DRIVER","VTOL_PILOT","VEHICLE_GUNNER",
+         "VEHICLE_CREW","AEROSPACE_PILOT","CONVENTIONAL_AIRCRAFT_PILOT",
+         "PROTOMECH_PILOT","BATTLE_ARMOUR","SOLDIER","VESSEL_PILOT",
+         "VESSEL_GUNNER","VESSEL_CREW","VESSEL_NAVIGATOR","MECH_TECH",
+         "MECHANIC","AERO_TECH","BA_TECH","DOCTOR",
+         "ADMINISTRATOR_COMMAND","ADMINISTRATOR_LOGISTICS",
+         "ADMINISTRATOR_TRANSPORT","ADMINISTRATOR_HR"]
 
-#role names for ALL roles in MekHQ by index number. You can change names, but 
-#do not remove values, even if you do not use the role above
-role_names = ["Mechwarrior", "Aerospace Pilot", "Vehicle Driver", "Naval Vessel Driver", "VTOL Pilot", "Vehicle Gunner", "Battle Armor Infantry", "Conventional Infantry Soldier", "Protomech Pilot", "Conventional Fighter Pilot", "Space Vessel Pilot", "Space Vessel Crew", "Space Vessel Gunner", "Hyperspace Navigator", "Mech Tech", "Mechanic", "Aero Tech", "Battle Armor Tech", "Astech", "Doctor", "Medic", "Admin/Command", "Admin/Logistical", "Admin/Transport", "Admin/HR", "LAM Pilot", "Vehicle Crew"]
+roles_dict = {
+    "MECHWARRIOR" : "Mechwarrior",
+    "LAM_PILOT" : "LAM Pilot",
+    "GROUND_VEHICLE_DRIVER" : "Vehicle Driver",
+    "NAVAL_VEHICLE_DRIVER" : "Naval Vessel Driver",
+    "VTOL_PILOT" : "VTOL Pilot",
+    "VEHICLE_GUNNER" : "Vehicle Gunner",
+    "VEHICLE_CREW" : "Vehicle Crew",
+    "AEROSPACE_PILOT" : "Aerospace Pilot",
+    "CONVENTIONAL_AIRCRAFT_PILOT" : "Conventional Fighter Pilot",
+    "PROTOMECH_PILOT" : "Protomech Pilot",
+    "BATTLE_ARMOUR" : "Battle Armor Soldier",
+    "SOLDIER" : "Soldier",
+    "VESSEL_PILOT" : "Space Vessel Pilot",
+    "VESSEL_GUNNER" : "Space Vessel Gunner",
+    "VESSEL_CREW" : "Space Vessel Crew",
+    "VESSEL_NAVIGATOR" : "Hyperspace Navigator",
+    "MECH_TECH" : "Mech Tech",
+    "MECHANIC" : "Mechanic",
+    "AERO_TECH" : "Aero Tech",
+    "BA_TECH" : "Battle Armor Tech",
+    "ASTECH" : "Astech",
+    "DOCTOR" : "Doctor",
+    "MEDIC" : "Medic",
+    "ADMINISTRATOR_COMMAND" : "Admin/Command",
+    "ADMINISTRATOR_LOGISTICS" : "Admin/Logistical",
+    "ADMINISTRATOR_TRANSPORT" : "Admin/Transport",
+    "ADMINISTRATOR_HR" : "Admin/HR",
+    "DEPENDENT" : "Dependent",
+    "NONE" : "None"
+}
 
 #mission, scenario, and personnel status names
-mission_status_names = ["Active","Completed","Failed","Breached"]
-scenario_status_names = ["Active","Victory","Marginal Victory","Defeat","Marginal Defeat","Draw"]
+mission_status_dict = {
+    "ACTIVE" : "Active",
+    "SUCCESS" : "Success",
+    "FAILED" : "Failed",
+    "BREACHED" : "Breached"
+}
+scenario_status_dict = {
+    "CURRENT" : "Current",
+    "DECISIVE_VICTORY" : "Decisive Victory",
+    "VICTORY" : "Victory",
+    "MARGINAL_VICTORY" : "Marginal Victory",
+    "PYRRHIC_VICTORY" : "Pyrrhic Victory",
+    "DRAW" : "Draw",
+    "MARGINAL_DEFEAT" : "Marginal Defeat",
+    "DEFEAT" : "Defeat",
+    "DECISIVE_DEFEAT" : "Decisive Defeat"
+}
 personnel_status_names = ['Active','Retired','Killed in Action','Missing in Action']
 personnel_status_dict = {
     "ACTIVE" : "Active",
@@ -120,6 +170,8 @@ def get_person_status(status):
     else:
         return personnel_status_dict[status]
     
+def get_person_role(role):
+    return roles_dict[role]
 
 #loop through kills and count ones belonging to this uuid
 def count_kills(uuid, kills):
@@ -219,15 +271,15 @@ def find_force(uuid, forces_ele, parent_name, parent_slug):
     return None
 
 def find_rank(rank_level, rank_system, role):
-    if(role==2 or role==10):
+    if(role in ["AEROSPACE_PILOT","CONVENTIONAL_AIRCRAFT_PILOT"]):
         rank = all_rank_lists[rank_system][1][rank_level]
-    elif((role>=3 and role<=6) or role==27):
+    elif(role in ["GROUND_VEHICLE_DRIVER", "NAVAL_VEHICLE_DRIVER", "VTOL_PILOT", "VEHICLE_GUNNER","VEHICLE_CREW"]):
         rank = all_rank_lists[rank_system][2][rank_level]
-    elif(role>=11 and role <=14):
+    elif(role in [ "VESSEL_PLOT", "VESSEL_CREW", "VESSEL_GUNNER", "VESSEL_NAVIGATOR"]):
         rank = all_rank_lists[rank_system][3][rank_level]
-    elif(role>=7 and role <=8):
+    elif(role in ["BATTLE_ARMOUR","SOLDIER"]):
         rank = all_rank_lists[rank_system][4][rank_level]
-    elif(role>=15 and role <=19):
+    elif(role in ["MECH_TECH", "MECHANIC", "AERO_TECH", "BA_TECH", "ASTECH"]):
         rank = all_rank_lists[rank_system][5][rank_level]
     else:
         rank = all_rank_lists[rank_system][0][rank_level]
@@ -321,7 +373,7 @@ def get_skill_desc(sk1, sk2):
     return [skill_level_names[lvl], tgt_desc]
     
 def get_skill_report(person):
-    role = int(person.find('primaryRole').text)
+    role = person.find('primaryRole').text
     skills = {}
     for skill in person.findall('skill'):
         sk_name = get_xml_text(skill.find('type'))
@@ -330,78 +382,78 @@ def get_skill_report(person):
         skills[sk_name] = Skill(sk_name, sk_lvl, sk_bns)
     sk1 = None
     sk2 = None
-    if(role == 1): #mechwarrior
+    if(role == "MECHWARRIOR"):
         if('Gunnery/Mech' in skills):
             sk1 = skills['Gunnery/Mech']
         if('Piloting/Mech' in skills):
             sk2 = skills['Piloting/Mech']
-    elif(role == 2): #ASF pilot
+    elif(role == "AEROSPACE_PILOT"):
         if('Gunnery/Aerospace' in skills):
             sk1 = skills['Gunnery/Aerospace']
         if('Piloting/Aerospace' in skills):
             sk2 = skills['Piloting/Aerospace']
-    elif(role == 3): #vee driver
+    elif(role == "GROUND_VEHICLE_DRIVER"):
         if('Piloting/Ground Vehicle' in skills):
             sk1 = skills['Piloting/Ground Vehicle']
-    elif(role == 4): #bluewater naval driver
+    elif(role == "NAVAL_VEHICLE_DRIVER"):
         if('Piloting/Naval' in skills):
             sk1 = skills['Piloting/Naval']
-    elif(role == 5): #VTOL pilot
+    elif(role == "VTOL_PLOT"):
         if('Piloting/VTOL' in skills):
             sk1 = skills['Piloting/VTOL']
-    elif(role == 6): #Vee gunner
+    elif(role == "VEHICLE_GUNNER"):
         if('Gunnery/Vehicle' in skills):
             sk1 = skills['Gunnery/Vehicle']
-    elif(role == 7): #BA pilot
+    elif(role == "BATTLE_ARMOUR"):
         if('Gunnery/Battlesuit' in skills):
             sk1 = skills['Gunnery/Battlesuit']
         if('Anti-Mech' in skills):
             sk2 = skills['Anti-Mech']
-    elif(role == 8): #Conventional Infantry
+    elif(role == "SOLDIER"):
         if('Small Arms' in skills):
             sk1 = skills['Small Arms']
-    elif(role == 9): #Protomech Pilot
+    elif(role == "PROTOMECH_PLOT"):
         if('Gunnery/Protomech' in skills):
             sk1 = skills['Gunnery/Protomech']
-    elif(role == 10): #Conv Fighter Pilot
+    elif(role == "CONVENTIONAL_AIRCRAFT_PILOT"):
         if('Gunnery/Aircraft' in skills):
             sk1 = skills['Gunnery/Aircraft']
         if('Piloting/Jet' in skills):
             sk2 = skills['Piloting/Jet']
-    elif(role == 11): #Space pilot
+    elif(role == "VESSEL_PILOT"):
         if('Piloting/Aircraft' in skills):
             sk1 = skills['Piloting/Spacecraft']
-    elif(role == 12): #space crew
+    elif(role == "VESSEL_CREW"):
         if('Tech/Vessel' in skills):
             sk1 = skills['Tech/Vessel']
-    elif(role == 13): #space gunners
+    elif(role == "VESSEL_GUNNER"):
         if('Gunnery/Spacecraft' in skills):
             sk1 = skills['Gunnery/Spacecraft']
-    elif(role == 14): #Navigator
+    elif(role == "VESSEL_NAVIGATOR"):
         if('Hyperspace Navigator' in skills):
             sk1 = skills['Hyperspace Navigation']
-    elif(role == 15): #Mech Tech
+    elif(role == "MECH_TECH"):
         if('Tech/Mech' in skills):
             sk1 = skills['Tech/Mech']
-    elif(role == 16): #Mechanic Tech
+    elif(role == "MECHANIC"):
         if('Tech/Mechanic' in skills):
             sk1 = skills['Tech/Mechanic']
-    elif(role == 17): #Aero Tech
+    elif(role == "AERO_TECH"):
         if('Tech/Aero' in skills):
             sk1 = skills['Tech/Aero']
-    elif(role == 18): #BA Tech
+    elif(role == "BA_TECH"):
         if('Tech/BA' in skills):
             sk1 = skills['Tech/BA']
-    elif(role == 19): #Astech
+    elif(role == "ASTECH"):
         if('Astech' in skills):
             sk1 = skills['Astech']
-    elif(role == 20): #Doctor
+    elif(role == "DOCTOR"):
         if('Doctor' in skills):
             sk1 = skills['Doctor']
-    elif(role == 21): #Medic
+    elif(role == "MEDIC"):
         if('Medtech' in skills):
             sk1 = skills['Medtech']
-    elif(role >= 22 and role <=25): #Admin
+    elif(role == "ADMINISTRATOR_COMMAND" or role == "ADMINISTRATOR_LOGISTICS" or role == "ADMINISTRATOR_TRANSPORT" or role == "ADMINISTRATOR_HR"):
         if('Administration' in skills):
             sk1 = skills['Administration']
     return get_skill_desc(sk1, sk2)
@@ -494,8 +546,8 @@ process_forces(forces, None, None)
 #loop through personnel and print out markdown file for each one
 for person in personnel.findall('person'):
     uuid  = person.find('id').text
-    primary_role = int(person.find('primaryRole').text)
-    role_name = role_names[primary_role-1]
+    primary_role = person.find('primaryRole').text
+    role_name = get_person_role(primary_role)
     first = get_xml_text(person.find('givenName'))
     surname = get_xml_text(person.find('surname'))
     bloodname = get_xml_text(person.find('bloodname'))
@@ -612,7 +664,7 @@ for mission in missions.findall('mission'):
     if(mission_location != ''):
         f.write('location: ' + mission_location + '\n')
     if(mission_status != ''):
-        f.write('status: ' + mission_status_names[int(mission_status)] + '\n')
+        f.write('status: ' + mission_status_dict[mission_status] + '\n')
     f.write('mission-order: ' + str(mission_id) + '\n')
     f.write('slug: ' + urlify(mission_name) + '\n')
     f.write('---\n\n')
@@ -633,7 +685,7 @@ for mission in missions.findall('mission'):
             if(scenario_date is not None):
                 f.write('date: ' + scenario_date.strftime('%Y-%m-%d') + '\n')
             if(scenario_status != ''):
-                f.write('status: ' + scenario_status_names[int(scenario_status)] + '\n')
+                f.write('status: ' + scenario_status_dict[scenario_status] + '\n')
             f.write('mission: ' + mission_name + '\n')
             f.write('mission-slug: ' + urlify(mission_name) + '\n')
             f.write('---\n\n')

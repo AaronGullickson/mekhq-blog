@@ -2,10 +2,10 @@
 layout: personnel
 title: Administrators
 roles: 
-  - 22
-  - 23
-  - 24
-  - 25
+  - "ADMINISTRATOR_COMMAND"
+  - "ADMINISTRATOR_LOGISTICS"
+  - "ADMINISTRATOR_TRANSPORT"
+  - "ADMINISTRATOR_HR"
 status: "Active"
 permalink: /admin.html
 ---

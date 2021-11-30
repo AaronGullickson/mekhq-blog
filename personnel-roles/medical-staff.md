@@ -2,8 +2,8 @@
 layout: personnel
 title: Medical Staff
 roles: 
-  - 20
-  - 21
+  - "DOCTOR"
+  - "MEDIC"
 status: "Active"
 permalink: /medical-staff.html
 ---

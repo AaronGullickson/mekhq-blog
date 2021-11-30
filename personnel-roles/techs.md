@@ -2,11 +2,11 @@
 layout: personnel
 title: Techs
 roles: 
-  - 15
-  - 16
-  - 17
-  - 18
-  - 19
+  - "MECH_TECH"
+  - "MECHANIC"
+  - "AERO_TECH"
+  - "BA_TECH"
+  - "ASTECH"
 status: "Active"
 permalink: /techs.html
 ---
