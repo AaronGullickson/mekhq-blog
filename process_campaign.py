@@ -5,11 +5,11 @@
 # ----------------------------------------------------------------------------
 
 #relative or absolute path to your mekhq directory including trailing /
-mekhq_path = "../Programs/mekhq-0.47.17/"
+mekhq_path = "../../../Programs/mekhq-0.47.17/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
-campaign_file = 'Flaming Devil Monkeys30751205v10.cpnx'
+campaign_file = 'Flaming Devil Monkeys30750107.cpnx'
 
 #change this to choose which personnel get loaded based on personnel types
 #in mekhq
@@ -438,7 +438,7 @@ campaign = tree.getroot()
 
 #stuff we need 
 campaign_info = campaign.find('info')
-date = datetime.datetime.strptime(campaign_info.find('calendar').text, '%Y-%m-%d')
+date = datetime.datetime.strptime(campaign_info.find('calendar').text, '%Y-%m-%d %H:%M:%S')
 kills = campaign.find('kills')
 skill_types = campaign.find('skillTypes')
 personnel = campaign.find('personnel')
