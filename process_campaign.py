@@ -5,11 +5,11 @@
 # ----------------------------------------------------------------------------
 
 #relative or absolute path to your mekhq directory including trailing /
-mekhq_path = "../../../Programs/mekhq-0.49.5/"
+mekhq_path = "../Programs/mekhq-0.49.5/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
-campaign_file = 'Flaming Devil Monkeys30751208.cpnx.gz'
+campaign_file = 'Ronin Cat Avengers31430726.cpnx.gz'
 
 #change this to choose which personnel get loaded based on personnel types
 #in mekhq
@@ -510,18 +510,18 @@ units = campaign.find('units')
 
 rank_tree = ET.parse(mekhq_path + 'data/universe/ranks.xml')
 rank_systems = rank_tree.getroot()
-all_rank_lists = []
-for rank_system in rank_systems.findall('rankSystem'):        
-    all_rank_lists.append(process_rank_system(rank_system))
+all_rank_lists = {}
+for rank_system in rank_systems.findall('rankSystem'):
+    code = get_xml_text(rank_system.find('code'))   
+    all_rank_lists[code] = process_rank_system(rank_system)
 
 #now check for a custom rank system to append
-#custom is hard-coded to 12
 rank_system = campaign_info.find('rankSystem')
-all_rank_lists[12] = process_rank_system(rank_system)
+all_rank_lists['CUSTOM'] = process_rank_system(rank_system)
 if(get_xml_text(rank_system.find("system")) == ''):
-    rank_system_default = 12
+    rank_system_default = 'CUSTOM'
 else:
-    rank_system_default = int(get_xml_text(rank_system.find("system")))
+    rank_system_default = get_xml_text(rank_system.find("system"))
 
 
 
@@ -574,8 +574,6 @@ for person in personnel.findall('person'):
     person_rank_system = get_xml_text(person.find('rankSystem'))
     if(person_rank_system == '' or person_rank_system == '-1'):
         person_rank_system = rank_system_default
-    else:
-        person_rank_system = int(person_rank_system)
     if(rank_number is not None):
         rank_name = find_rank(int(rank_number), person_rank_system, primary_role)
     unit_id = find_unit(uuid, units)
