@@ -5,7 +5,7 @@ This repository contains a [jekyll](https://jekyllrb.com/) template and a [pytho
 - [Flaming Devil Monkeys](https://flaming-devil-monkeys.netlify.app)
 - [The Free Company of Oriente](https://free-company-oriente.netlify.app/)
 
-The website will produce output for selected personnel, mission and scenario write-ups, and a full TO&E. Additional information such as fiction and TRO readouts can be added as well. Virtually any aspect of the website can be customized through the Jekyll layout system, [Bootstrap](https://getbootstrap.com/), or CSS. 
+The website will produce output for selected personnel, mission and scenario write-ups, and a full TO&E. Additional information such as fiction and TRO readouts can be added as well. Virtually any aspect of the website can be customized through the Jekyll layout system, [Bootstrap](https://getbootstrap.com/), or CSS.
 
 ## Installation
 
@@ -16,7 +16,7 @@ The website will produce output for selected personnel, mission and scenario wri
 
 ### Instructions
 
-Download a zip version of this repository using the big green button above or download one of the available releases. Alternatively, this entire repository can be used as a template for a new repository on GitHub. 
+Download a zip version of this repository using the big green button above or download one of the available releases. Alternatively, this entire repository can be used as a template for a new repository on GitHub.
 
 Once you have downloaded the repository, you first need to update the bundler for jekyll. To do that, run the following command from the command line in the top-level directory:
 
@@ -38,12 +38,15 @@ To add your campaign's information, you should open up the `process_campaign.py`
 #relative or absolute path to your mekhq directory including trailing /
 mekhq_path = "../Programs/mekhq-0.47.5/"
 
-#the name of your campaign file within the campaigns directory of your 
+#path to user data for getting portraits
+user_data_path = "../Programs/megamek_data/"
+
+#the name of your campaign file within the campaigns directory of your
 #mekhq directory
 campaign_file = 'Flaming Devil Monkeys30740904.cpnx'
 ```
 
-The `mekhq_path` entry should provide a relative or absolute path to your MekHQ directory. The `campaign_file` entry should contain the name of the campaign file you wish to load.
+The `mekhq_path` entry should provide a relative or absolute path to your MekHQ directory. The `campaign_file` entry should contain the name of the campaign file you wish to load. The `user_data_path` should be a relative or absolute path to the user's custom data directory (as set up in MegaMek's client settings) so that portraits can also be pulled from this directory.
 
 Once you have made and saved these changes, you can run the python file from the command line:
 
@@ -85,7 +88,7 @@ You can change either the fonts of color settings as you like. I would recommend
 
 You can add blot posts in the `campaign/_posts`. Follow the outline given in the example post. These blog posts are separate from the MekHQ data. If you do not wish to use this feature, you can remove or comment out the Fiction menu item from `_data/navigation.yml`.
 
-### Choosing which personnel to load 
+### Choosing which personnel to load
 
 By default, the script will load all personnel except astechs and medics. You can change this by customizing the `roles` value at the top of the `process_campaign.py` script.
 
@@ -120,5 +123,5 @@ This will build your static website in the `_site` directory. You can take every
 
 ## Disclaimers
 
-- I am providing this because it may be of interest, but it was designed for my own personal campaigns and in this early stage is likely to break for others, given the complexity of options in MekHQ. If your campaign will not process, please post an issue that includes the attached campaign file. 
-- I am open to adding additional features to this website which may be requested through the issues tab. However, the goal here is not reproduce every possible thing that MekHQ reports but rather to produce a nice narratively driven website front for your campaign. I will not bloat this produce or provide endless customization options to satisfy BOCD ("Battletech OCD"). 
+- I am providing this because it may be of interest, but it was designed for my own personal campaigns and in this early stage is likely to break for others, given the complexity of options in MekHQ. If your campaign will not process, please post an issue that includes the attached campaign file.
+- I am open to adding additional features to this website which may be requested through the issues tab. However, the goal here is not reproduce every possible thing that MekHQ reports but rather to produce a nice narratively driven website front for your campaign. I will not bloat this produce or provide endless customization options to satisfy BOCD ("Battletech OCD").
