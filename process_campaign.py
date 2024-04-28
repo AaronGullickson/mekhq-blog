@@ -5,11 +5,14 @@
 # ----------------------------------------------------------------------------
 
 #relative or absolute path to your mekhq directory including trailing /
-mekhq_path = "../Programs/mekhq-0.49.5/"
+mekhq_path = "../Programs/mekhq-0.49.19/"
+
+#path to user data for getting portraits
+user_data_path = "../Programs/megamek_data/"
 
 #the name of your campaign file within the campaigns directory of your 
 #mekhq directory
-campaign_file = 'Ronin Cat Avengers31430726.cpnx.gz'
+campaign_file = 'Ronin Cat Avengers31441111.cpnx.gz'
 
 #change this to choose which personnel get loaded based on personnel types
 #in mekhq
@@ -708,4 +711,9 @@ for portrait_name in portrait_paths:
     try:
         copyfile(mekhq_path + 'data/images/portraits/' + portrait_path, 'assets/images/portraits/' + portrait_name)
     except:
-        pass
+        try:
+          copyfile(user_data_path + 'data/images/portraits/' + portrait_path, 'assets/images/portraits/' + portrait_name)
+        except:
+          pass
+          
+          
